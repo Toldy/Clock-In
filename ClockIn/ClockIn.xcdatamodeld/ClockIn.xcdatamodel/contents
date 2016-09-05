@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="10174" systemVersion="15G1004" minimumToolsVersion="Automatic">
+    <entity name="WorkSlot" representedClassName=".WorkSlot" syncable="YES">
+        <attribute name="begin" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="end" optional="YES" attributeType="Date" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="WorkSlot" positionX="-63" positionY="-18" width="128" height="75"/>
+    </elements>
+</model>
