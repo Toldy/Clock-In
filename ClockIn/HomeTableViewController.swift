@@ -9,7 +9,22 @@
 import UIKit
 import CoreData
 
-class HomeTableViewController: UITableViewController {
+class HomeTableViewController: UIViewController {
+
+    // MARK: Outlets
+    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var statsLabel: UILabel!
+    
+    @IBAction func actionClockIn(sender: AnyObject) {
+        if let workSlot = workSlots.first where workSlot.end == nil {
+            workSlot.end = NSDate()
+            coreDataUpdate(workSlot)
+        } else {
+            coreDataCreate(NSDate())
+        }
+        
+        tableView.reloadData()
+    }
     
     let managedObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
     
@@ -24,35 +39,65 @@ class HomeTableViewController: UITableViewController {
             totalWorked = t
         }
     }
+    
     var totalWorked = 0 {
         didSet {
             updateStats()
         }
     }
     
-    @IBOutlet weak var statsLabel: UILabel!
-    @IBAction func actionClockIn(sender: AnyObject) {
-        if let workSlot = workSlots.first where workSlot.end == nil {
-            workSlot.end = NSDate()
-            coreDataUpdate(workSlot)
-        } else {
-            coreDataCreate(NSDate())
-        }
-        
-        workSlots = coreDataRead()
-        tableView.reloadData()
-    }
+    
+    // MARK: Life-cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        tableView.dataSource = self
+        tableView.delegate = self
+        
+        setupUI()
+
         workSlots = coreDataRead()
         tableView.reloadData()
-        self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
 
+    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
+        return (sender as? CustomTableViewCell)?.workSlot.end != nil
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
+        if let vc = segue.destinationViewController as? EditTableViewController,
+            let cell = sender as? CustomTableViewCell {
+            
+            vc.initializationHandler = { (beginDatePicker, endDatePicker)  in
+                
+                beginDatePicker.date = cell.workSlot.begin
+                endDatePicker.date = cell.workSlot.end!
+            }
+            
+            vc.completionHandler = { (beginDate, endDate)  in
+                let workSlot = cell.workSlot
+                
+                workSlot.begin = beginDate
+                workSlot.end = endDate
+                
+                self.coreDataUpdate(workSlot)
+                self.tableView.reloadData()
+            }
+        }
+    }
+    
+    override func setEditing(editing: Bool, animated: Bool) {
+        super.setEditing(editing, animated: animated)
+        tableView.setEditing(editing, animated: animated)
+    }
+    
     // MARK: - UI Update
     
+    func setupUI() {
+        navigationItem.rightBarButtonItem = self.editButtonItem()
+    }
+
     func updateStats() {
         let style = NSMutableParagraphStyle()
         
@@ -77,41 +122,6 @@ class HomeTableViewController: UITableViewController {
         
         statsLabel.attributedText = signInString
     }
-
-
-    // MARK: - Table view
-
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return workSlots.count
-    }
-
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! CustomTableViewCell
-        
-        let data = workSlots[indexPath.row]
-        
-        let formatter = NSDateFormatter()
-        formatter.dateFormat = "dd/MM/yyyy HH:mm"
-        
-        cell.begin.text = formatter.stringFromDate(data.begin)
-        cell.end.text = "-"
-        if let end = data.end {
-            cell.end.text = formatter.stringFromDate(end)
-        }
-        
-        return cell
-    }
-    
-    
-    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == .Delete {
-            // Delete the row from the data source
-            coreDataDelete(workSlots[indexPath.row])
-            workSlots.removeAtIndex(indexPath.row)
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-        }
-    }
     
     // MARK: - Core Data
     
@@ -135,6 +145,8 @@ class HomeTableViewController: UITableViewController {
             let saveError = error as NSError
             print(saveError)
         }
+        
+        workSlots = coreDataRead()
     }
     
     func coreDataDelete(workSlot: WorkSlot) {
@@ -146,11 +158,54 @@ class HomeTableViewController: UITableViewController {
             let saveError = error as NSError
             print(saveError)
         }
+        
+        workSlots = coreDataRead()
     }
     
     func coreDataCreate(begin: NSDate, end: NSDate? = nil) {
         let newSlot = NSEntityDescription.insertNewObjectForEntityForName("WorkSlot", inManagedObjectContext: self.managedObjectContext) as! WorkSlot
         newSlot.begin = begin
         newSlot.end = end
+        
+        workSlots = coreDataRead()
     }
+    
+}
+
+
+// MARK: - Table view
+
+extension HomeTableViewController : UITableViewDataSource {
+    
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return workSlots.count
+    }
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! CustomTableViewCell
+        
+        let data = workSlots[indexPath.row]
+        
+        // Cell Data
+
+        cell.setup()
+        cell.workSlot = data
+        
+        return cell
+    }
+}
+
+
+extension HomeTableViewController : UITableViewDelegate {
+
+    
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        if editingStyle == .Delete {
+            // Delete the row from the data source
+            coreDataDelete(workSlots[indexPath.row])
+//            workSlots.removeAtIndex(indexPath.row)
+            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+        }
+    }
+    
 }
