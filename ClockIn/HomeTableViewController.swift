@@ -15,6 +15,9 @@ class HomeTableViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var statsLabel: UILabel!
     
+    @IBOutlet weak var sectionHeaderLabel: UILabel!
+    @IBOutlet var sectionHeaderView: UIView!
+    
     @IBAction func actionClockIn(sender: AnyObject) {
         if let workSlot = workSlots.first where workSlot.end == nil {
             workSlot.end = NSDate()
@@ -28,6 +31,8 @@ class HomeTableViewController: UIViewController {
     
     let managedObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
     
+    
+    var sortedWorkSlots: [Int : [WorkSlot]] = [:]
     var workSlots = [WorkSlot]() {
         didSet {
             var t = 0
@@ -37,6 +42,7 @@ class HomeTableViewController: UIViewController {
                 }
             }
             totalWorked = t
+            sortedWorkSlots = getSortedWorkSlots()
         }
     }
     
@@ -123,6 +129,28 @@ class HomeTableViewController: UIViewController {
         statsLabel.attributedText = signInString
     }
     
+    func getSortedWorkSlots() -> [Int : [WorkSlot]] {
+        var sortedWorkSlots: [Int : [WorkSlot]] = [:]
+        for slot in workSlots {
+            
+            let day = getDayMonthYearOfDate(slot.begin)
+
+            if var found = sortedWorkSlots[day] {
+                sortedWorkSlots[day]!.append(slot)
+            } else {
+                sortedWorkSlots[day] = [slot]
+            }
+        }
+        return sortedWorkSlots
+    }
+   
+    
+    func getDayMonthYearOfDate(date: NSDate) -> Int {
+        let calendar = NSCalendar.currentCalendar()
+        let components = calendar.components([.Day , .Month , .Year], fromDate: date)
+        return components.year * 10000 + components.month * 100 + components.day
+    }
+    
     // MARK: - Core Data
     
     func coreDataRead() -> [WorkSlot] {
@@ -178,13 +206,17 @@ class HomeTableViewController: UIViewController {
 extension HomeTableViewController : UITableViewDataSource {
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return workSlots.count
+        return Array(sortedWorkSlots.values)[section].count
+    }
+    
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return sortedWorkSlots.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! CustomTableViewCell
         
-        let data = workSlots[indexPath.row]
+        let data = Array(sortedWorkSlots.values)[indexPath.section][indexPath.row]
         
         // Cell Data
 
@@ -201,11 +233,32 @@ extension HomeTableViewController : UITableViewDelegate {
     
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == .Delete {
-            // Delete the row from the data source
-            coreDataDelete(workSlots[indexPath.row])
-//            workSlots.removeAtIndex(indexPath.row)
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+            coreDataDelete(Array(sortedWorkSlots.values)[indexPath.section][indexPath.row])
+            tableView.reloadData()
         }
     }
     
+    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 34
+    }
+    
+    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+
+        sectionHeaderLabel.text = "Day - \(section)"
+        
+        var view = sectionHeaderView.copyView() as! UIView
+        
+        return view
+    }
+    
+}
+
+// MARK: - UIView Extensions
+
+extension UIView
+{
+    func copyView() -> AnyObject
+    {
+        return NSKeyedUnarchiver.unarchiveObjectWithData(NSKeyedArchiver.archivedDataWithRootObject(self))!
+    }
 }

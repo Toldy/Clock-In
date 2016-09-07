@@ -96,11 +96,31 @@
                     </view>
                     <navigationItem key="navigationItem" title="Clock In" id="2je-nG-ZXV"/>
                     <connections>
+                        <outlet property="sectionHeaderLabel" destination="lpE-59-l1h" id="EGb-ek-k1s"/>
+                        <outlet property="sectionHeaderView" destination="ztT-8u-ao5" id="YWS-0z-d4c"/>
                         <outlet property="statsLabel" destination="79q-ue-Sdr" id="SAb-fu-yby"/>
                         <outlet property="tableView" destination="gdF-5k-kqe" id="MkI-Z4-gV7"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ujr-Oe-DLo" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <view contentMode="scaleToFill" id="ztT-8u-ao5">
+                    <rect key="frame" x="0.0" y="0.0" width="600" height="34"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lpE-59-l1h">
+                            <rect key="frame" x="8" y="8" width="572" height="18"/>
+                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
+                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="lpE-59-l1h" secondAttribute="trailing" constant="20" symbolic="YES" id="gZD-Fe-WKW"/>
+                        <constraint firstItem="lpE-59-l1h" firstAttribute="centerY" secondItem="ztT-8u-ao5" secondAttribute="centerY" id="kX9-aT-SOt"/>
+                        <constraint firstItem="lpE-59-l1h" firstAttribute="leading" secondItem="ztT-8u-ao5" secondAttribute="leadingMargin" id="ulK-3e-kek"/>
+                    </constraints>
+                </view>
             </objects>
             <point key="canvasLocation" x="2203" y="466"/>
         </scene>
