@@ -7,8 +7,9 @@ Don't complain about anything please, it is just life :)
 
 # Screenshot
 
-This screen is Just For YOU
+Enjoy my Awesome design, It's Just For YOU
 
-<img src="https://github.com/Toldy/Clock-In/raw/master/AWESOME_SCREENSHOT.jpg" alt="I'M BIG" width="500">
+<img src="https://github.com/Toldy/Clock-In/raw/master/Assets/AWESOME_SCREENSHOT_INTRO.png" alt="I'M BIG" width="500">
+<img src="https://github.com/Toldy/Clock-In/raw/master/Assets/AWESOME_SCREENSHOT_EDIT.png" alt="I'M BIG" width="500">
 
 ##KISSES, Toldino
