@@ -11,7 +11,7 @@ import UIKit
 class CustomTableViewCell: UITableViewCell {
    
     func setup() {
-        formatter.dateFormat = "dd/MM/yyyy HH:mm"
+        formatter.dateFormat = "HH:mm"
     }
 
     var workSlot: WorkSlot! {
@@ -31,7 +31,7 @@ class CustomTableViewCell: UITableViewCell {
     private var endDate: NSDate? {
         didSet {
             guard let endDate_ = endDate else {
-                end.text = "_"
+                end.text = "-"
                 return
             }
             end.text = formatter.stringFromDate(endDate_)

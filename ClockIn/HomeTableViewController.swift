@@ -19,6 +19,8 @@ class HomeTableViewController: UIViewController {
     @IBOutlet weak var sectionHeaderLabel: UILabel!
     @IBOutlet var sectionHeaderView: UIView!
 
+    @IBOutlet weak var headerView: UIView!
+    
     @IBAction func actionClockIn(sender: AnyObject) {
         if let workSlot = workSlotItems.items[0].first where workSlot.end == nil {
             workSlot.end = NSDate()
@@ -47,6 +49,14 @@ class HomeTableViewController: UIViewController {
 
         coreDataRead()
         tableView.reloadData()
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        if let indexPath = tableView.indexPathForSelectedRow {
+            tableView.deselectRowAtIndexPath(indexPath, animated: animated)
+        }
     }
 
     override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
@@ -83,6 +93,7 @@ class HomeTableViewController: UIViewController {
     // MARK: - UI Update
     
     func setupUI() {
+        headerView.userInteractionEnabled = true
         navigationItem.rightBarButtonItem = self.editButtonItem()
     }
 
