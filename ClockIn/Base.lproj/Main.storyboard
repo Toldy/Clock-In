@@ -40,7 +40,7 @@
                                             <rect key="frame" x="278" y="7" width="44" height="30"/>
                                             <state key="normal" title="Check"/>
                                             <connections>
-                                                <action selector="actionClockIn:" destination="ZqU-Is-uIT" eventType="touchUpInside" id="cw2-fj-dKG"/>
+                                                <action selector="actionCheck:" destination="ZqU-Is-uIT" eventType="touchUpInside" id="cu3-ta-pLh"/>
                                             </connections>
                                         </button>
                                     </subviews>
@@ -120,6 +120,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="Clock In" id="2je-nG-ZXV"/>
                     <connections>
+                        <outlet property="checkButton" destination="qXi-eM-zbp" id="Orc-bb-1IF"/>
                         <outlet property="headerView" destination="ULu-5w-euf" id="ADQ-VB-3bi"/>
                         <outlet property="sectionHeaderLabel" destination="lpE-59-l1h" id="EGb-ek-k1s"/>
                         <outlet property="sectionHeaderView" destination="ztT-8u-ao5" id="YWS-0z-d4c"/>

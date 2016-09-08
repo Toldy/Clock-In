@@ -11,17 +11,17 @@ import CoreData
 
 class HomeTableViewController: UIViewController {
 
+    
     // MARK: Outlets
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var statsLabel: UILabel!
-    
     @IBOutlet weak var sectionHeaderLabel: UILabel!
     @IBOutlet var sectionHeaderView: UIView!
-
     @IBOutlet weak var headerView: UIView!
+    @IBOutlet weak var checkButton: UIButton!
     
-    @IBAction func actionClockIn(sender: AnyObject) {
+    @IBAction func actionCheck(sender: AnyObject) {
         if let workSlot = workSlotItems.items[0].first where workSlot.end == nil {
             workSlot.end = NSDate()
             coreDataUpdate(workSlot)
@@ -29,7 +29,6 @@ class HomeTableViewController: UIViewController {
             coreDataCreate(NSDate())
         }
         
-        tableView.reloadData()
     }
     
     private let managedObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
@@ -48,7 +47,6 @@ class HomeTableViewController: UIViewController {
         setupUI()
 
         coreDataRead()
-        tableView.reloadData()
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -68,19 +66,16 @@ class HomeTableViewController: UIViewController {
             let cell = sender as? CustomTableViewCell {
             
             vc.initializationHandler = { (beginDatePicker, endDatePicker)  in
-                
                 beginDatePicker.date = cell.workSlot.begin
                 endDatePicker.date = cell.workSlot.end!
             }
             
             vc.completionHandler = { (beginDate, endDate)  in
                 let workSlot = cell.workSlot
-                
                 workSlot.begin = beginDate
                 workSlot.end = endDate
                 
                 self.coreDataUpdate(workSlot)
-                self.tableView.reloadData()
             }
         }
     }
@@ -92,11 +87,24 @@ class HomeTableViewController: UIViewController {
     
     // MARK: - UI Update
     
+    func updateUI() {
+        updateStats()
+        updateCheckButton()
+    }
+    
     func setupUI() {
         headerView.userInteractionEnabled = true
         navigationItem.rightBarButtonItem = self.editButtonItem()
     }
 
+    func updateCheckButton() {
+        if let end = workSlotItems.items[0][0].end {
+            checkButton.setTitle("Check In", forState: UIControlState.Normal)
+        } else {
+        checkButton.setTitle("Check Out", forState: UIControlState.Normal)
+        }
+    }
+    
     func updateStats() {
         let style = NSMutableParagraphStyle()
         
@@ -138,6 +146,7 @@ class HomeTableViewController: UIViewController {
     func coreDataRead() {
         let fetchRequest = NSFetchRequest(entityName: "WorkSlot")
         do {
+            
             if var results = try self.managedObjectContext.executeFetchRequest(fetchRequest).sort({ $0.begin > $1.begin }) as? [WorkSlot] {
                 workSlotItems = WorkSlotItems()
                 while let first = results.first {
@@ -146,32 +155,29 @@ class HomeTableViewController: UIViewController {
                     results.removeObjectsInArray(items)
                 }
             }
-            updateStats()
+            updateUI()
+            tableView.reloadData()
+            
         } catch { print("LEL. Did you really got an error ?!") }
     }
     
     func coreDataUpdate(workSlot: WorkSlot) {
         do {
+            
             try workSlot.managedObjectContext?.save()
-        } catch {
-            let saveError = error as NSError
-            print(saveError)
-        }
-        
-        coreDataRead()
+            coreDataRead()
+            
+        } catch { print("LEL. Did you really got an error ?!") }
     }
     
     func coreDataDelete(workSlot: WorkSlot) {
         self.managedObjectContext.deleteObject(workSlot)
-        
         do {
+            
             try self.managedObjectContext.save()
-        } catch {
-            let saveError = error as NSError
-            print(saveError)
-        }
-        
-        coreDataRead()
+            coreDataRead()
+            
+        } catch { print("LEL. Did you really got an error ?!") }
     }
     
     func coreDataCreate(begin: NSDate, end: NSDate? = nil) {
@@ -201,8 +207,6 @@ extension HomeTableViewController : UITableViewDataSource {
         let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! CustomTableViewCell
         
         let data = workSlotItems.items[indexPath.section][indexPath.row]
-        
-        // Cell Data
 
         cell.setup()
         cell.workSlot = data
@@ -218,7 +222,6 @@ extension HomeTableViewController : UITableViewDelegate {
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == .Delete {
             coreDataDelete(workSlotItems.items[indexPath.section][indexPath.row])
-            tableView.reloadData()
         }
     }
     
@@ -234,10 +237,7 @@ extension HomeTableViewController : UITableViewDelegate {
         formatter.dateStyle = .LongStyle
         
         sectionHeaderLabel.text = formatter.stringFromDate(dataForTitle)
-        
-
         let view = sectionHeaderView.copyView() as! UIView
-        
         return view
     }
     
