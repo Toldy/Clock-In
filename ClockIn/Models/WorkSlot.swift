@@ -30,4 +30,16 @@ class WorkSlotItems {
             }
         }
     }
+    
+    func totalTimeForSection(index: Int) -> Int {
+        let items = self.items[index]
+        var total = 0
+        
+        for item in items {
+            if let end = item.end {
+                total += end.minutesFrom(item.begin)
+            }
+        }
+        return total
+    }
 }

@@ -21,6 +21,7 @@
 		664DA50B1D814B93001D8D81 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664DA50A1D814B93001D8D81 /* UIView+Extension.swift */; };
 		664DA50D1D814BB1001D8D81 /* Array+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664DA50C1D814BB1001D8D81 /* Array+Extension.swift */; };
 		664DA5111D814C8B001D8D81 /* NSDate+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664DA5101D814C8B001D8D81 /* NSDate+Extension.swift */; };
+		664DA5141D81657E001D8D81 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664DA5131D81657E001D8D81 /* UIColor+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +53,7 @@
 		664DA50A1D814B93001D8D81 /* UIView+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIView+Extension.swift"; path = "Helpers/UIView+Extension.swift"; sourceTree = "<group>"; };
 		664DA50C1D814BB1001D8D81 /* Array+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Array+Extension.swift"; path = "Helpers/Array+Extension.swift"; sourceTree = "<group>"; };
 		664DA5101D814C8B001D8D81 /* NSDate+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSDate+Extension.swift"; path = "Helpers/NSDate+Extension.swift"; sourceTree = "<group>"; };
+		664DA5131D81657E001D8D81 /* UIColor+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIColor+Extension.swift"; path = "Helpers/UIColor+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -127,6 +129,7 @@
 				664DA5101D814C8B001D8D81 /* NSDate+Extension.swift */,
 				664DA50A1D814B93001D8D81 /* UIView+Extension.swift */,
 				664DA50C1D814BB1001D8D81 /* Array+Extension.swift */,
+				664DA5131D81657E001D8D81 /* UIColor+Extension.swift */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -257,6 +260,7 @@
 				663A48101D7E14E700393718 /* HomeTableViewController.swift in Sources */,
 				664DA50D1D814BB1001D8D81 /* Array+Extension.swift in Sources */,
 				663A48121D7E15A900393718 /* CustomTableViewCell.swift in Sources */,
+				664DA5141D81657E001D8D81 /* UIColor+Extension.swift in Sources */,
 				663A48181D7E25E800393718 /* WorkSlot+CoreDataProperties.swift in Sources */,
 				664DA5111D814C8B001D8D81 /* NSDate+Extension.swift in Sources */,
 				664DA50B1D814B93001D8D81 /* UIView+Extension.swift in Sources */,

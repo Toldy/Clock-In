@@ -9,6 +9,13 @@
 import UIKit
 import CoreData
 
+class 🖌 {
+    
+    static var lightGreyColor = UIColor(r: 33, g: 33, b: 33, a: 0.5)
+    static var materialRedColor = UIColor(r: 244, g: 67, b: 54)
+    static var materialBlueColor = UIColor(r: 63, g: 81, b: 181)
+}
+
 class HomeTableViewController: UIViewController {
 
     
@@ -18,6 +25,7 @@ class HomeTableViewController: UIViewController {
     @IBOutlet weak var statsLabel: UILabel!
     @IBOutlet weak var sectionHeaderLabel: UILabel!
     @IBOutlet var sectionHeaderView: UIView!
+    @IBOutlet weak var sectionStatsLabel: UILabel!
     @IBOutlet weak var headerView: UIView!
     @IBOutlet weak var checkButton: UIButton!
     
@@ -98,7 +106,7 @@ class HomeTableViewController: UIViewController {
     }
 
     func updateCheckButton() {
-        if let end = workSlotItems.items[0][0].end {
+        if let _ = workSlotItems.items[0][0].end {
             checkButton.setTitle("Check In", forState: UIControlState.Normal)
         } else {
         checkButton.setTitle("Check Out", forState: UIControlState.Normal)
@@ -106,28 +114,25 @@ class HomeTableViewController: UIViewController {
     }
     
     func updateStats() {
+        setStatsToLabel(workSlotItems.totalWorked, to: statsLabel, normalColor: 🖌.lightGreyColor, highlighColor: 🖌.materialRedColor, prefix: "Total : ")
+    }
+    
+    func setStatsToLabel(minutesWorked: Int, to label : UILabel, normalColor: UIColor, highlighColor: UIColor, prefix: String = "", suffix: String = "") {
         let style = NSMutableParagraphStyle()
-        
         style.alignment = NSTextAlignment.Center
         style.lineBreakMode = NSLineBreakMode.ByWordWrapping
-        
         let font1 = UIFont.systemFontOfSize(15)
         let font2 = UIFont.boldSystemFontOfSize(15)
-        
-        let color = UIColor.darkTextColor()
-        let color2 = UIColor.redColor()
-        
-        let dict1 = [NSForegroundColorAttributeName:color, NSFontAttributeName: font1, NSParagraphStyleAttributeName: style]
-        let dict2 = [NSForegroundColorAttributeName:color2, NSFontAttributeName: font2, NSParagraphStyleAttributeName: style]
-        
+        let dict1 = [NSForegroundColorAttributeName:normalColor, NSFontAttributeName: font1, NSParagraphStyleAttributeName: style]
+        let dict2 = [NSForegroundColorAttributeName:highlighColor, NSFontAttributeName: font2, NSParagraphStyleAttributeName: style]
         let signInString = NSMutableAttributedString()
-        signInString.appendAttributedString(NSAttributedString(string: "Total : ", attributes: dict1))
-        signInString.appendAttributedString(NSAttributedString(string: "\(workSlotItems.totalWorked / 60)", attributes: dict2))
+        signInString.appendAttributedString(NSAttributedString(string: prefix, attributes: dict1))
+        signInString.appendAttributedString(NSAttributedString(string: "\(minutesWorked / 60)", attributes: dict2))
         signInString.appendAttributedString(NSAttributedString(string: "h ", attributes: dict1))
-        signInString.appendAttributedString(NSAttributedString(string: "\(workSlotItems.totalWorked % 60)", attributes: dict2))
+        signInString.appendAttributedString(NSAttributedString(string: "\(minutesWorked % 60)", attributes: dict2))
         signInString.appendAttributedString(NSAttributedString(string: "m", attributes: dict1))
-        
-        statsLabel.attributedText = signInString
+        signInString.appendAttributedString(NSAttributedString(string: suffix, attributes: dict1))
+        label.attributedText = signInString
     }
     
     func getDayMonthYearOfDate(date: NSDate) -> (Int, Int, Int) {
@@ -237,6 +242,8 @@ extension HomeTableViewController : UITableViewDelegate {
         formatter.dateStyle = .LongStyle
         
         sectionHeaderLabel.text = formatter.stringFromDate(dataForTitle)
+        setStatsToLabel(workSlotItems.totalTimeForSection(section), to: sectionStatsLabel, normalColor: 🖌.lightGreyColor, highlighColor: 🖌.materialBlueColor, prefix: "(", suffix: ")")
+        
         let view = sectionHeaderView.copyView() as! UIView
         return view
     }
