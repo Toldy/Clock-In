@@ -15,10 +15,12 @@
 		663A47FD1D7E087B00393718 /* ClockInUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663A47FC1D7E087B00393718 /* ClockInUITests.swift */; };
 		663A48101D7E14E700393718 /* HomeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663A480F1D7E14E700393718 /* HomeTableViewController.swift */; };
 		663A48121D7E15A900393718 /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663A48111D7E15A900393718 /* CustomTableViewCell.swift */; };
-		663A48141D7E245900393718 /* NSDate+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663A48131D7E245900393718 /* NSDate+Extension.swift */; };
 		663A48181D7E25E800393718 /* WorkSlot+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663A48161D7E25E800393718 /* WorkSlot+CoreDataProperties.swift */; };
 		663A48191D7E25E800393718 /* WorkSlot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663A48171D7E25E800393718 /* WorkSlot.swift */; };
 		664DA5011D7F7175001D8D81 /* EditTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664DA5001D7F7175001D8D81 /* EditTableViewController.swift */; };
+		664DA50B1D814B93001D8D81 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664DA50A1D814B93001D8D81 /* UIView+Extension.swift */; };
+		664DA50D1D814BB1001D8D81 /* Array+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664DA50C1D814BB1001D8D81 /* Array+Extension.swift */; };
+		664DA5111D814C8B001D8D81 /* NSDate+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664DA5101D814C8B001D8D81 /* NSDate+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,10 +46,12 @@
 		663A47FE1D7E087B00393718 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		663A480F1D7E14E700393718 /* HomeTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeTableViewController.swift; sourceTree = "<group>"; };
 		663A48111D7E15A900393718 /* CustomTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
-		663A48131D7E245900393718 /* NSDate+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDate+Extension.swift"; sourceTree = "<group>"; };
 		663A48161D7E25E800393718 /* WorkSlot+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "WorkSlot+CoreDataProperties.swift"; path = "Models/WorkSlot+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		663A48171D7E25E800393718 /* WorkSlot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WorkSlot.swift; path = Models/WorkSlot.swift; sourceTree = "<group>"; };
 		664DA5001D7F7175001D8D81 /* EditTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditTableViewController.swift; sourceTree = "<group>"; };
+		664DA50A1D814B93001D8D81 /* UIView+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIView+Extension.swift"; path = "Helpers/UIView+Extension.swift"; sourceTree = "<group>"; };
+		664DA50C1D814BB1001D8D81 /* Array+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Array+Extension.swift"; path = "Helpers/Array+Extension.swift"; sourceTree = "<group>"; };
+		664DA5101D814C8B001D8D81 /* NSDate+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSDate+Extension.swift"; path = "Helpers/NSDate+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,16 +93,11 @@
 		663A47E31D7E087B00393718 /* ClockIn */ = {
 			isa = PBXGroup;
 			children = (
+				664DA50E1D814BCA001D8D81 /* Helpers */,
 				663A48151D7E257300393718 /* Models */,
-				663A47E41D7E087B00393718 /* AppDelegate.swift */,
-				663A47E81D7E087B00393718 /* Main.storyboard */,
-				663A48111D7E15A900393718 /* CustomTableViewCell.swift */,
-				663A480F1D7E14E700393718 /* HomeTableViewController.swift */,
-				664DA5001D7F7175001D8D81 /* EditTableViewController.swift */,
-				663A48131D7E245900393718 /* NSDate+Extension.swift */,
+				664DA5121D814CA6001D8D81 /* UI */,
 				663A47EE1D7E087B00393718 /* Assets.xcassets */,
-				663A47F01D7E087B00393718 /* LaunchScreen.storyboard */,
-				663A47F31D7E087B00393718 /* Info.plist */,
+				664DA50F1D814C4F001D8D81 /* Supporting File */,
 				663A47EB1D7E087B00393718 /* ClockIn.xcdatamodeld */,
 			);
 			path = ClockIn;
@@ -120,6 +119,37 @@
 				663A48171D7E25E800393718 /* WorkSlot.swift */,
 			);
 			name = Models;
+			sourceTree = "<group>";
+		};
+		664DA50E1D814BCA001D8D81 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				664DA5101D814C8B001D8D81 /* NSDate+Extension.swift */,
+				664DA50A1D814B93001D8D81 /* UIView+Extension.swift */,
+				664DA50C1D814BB1001D8D81 /* Array+Extension.swift */,
+			);
+			name = Helpers;
+			sourceTree = "<group>";
+		};
+		664DA50F1D814C4F001D8D81 /* Supporting File */ = {
+			isa = PBXGroup;
+			children = (
+				663A47F31D7E087B00393718 /* Info.plist */,
+			);
+			name = "Supporting File";
+			sourceTree = "<group>";
+		};
+		664DA5121D814CA6001D8D81 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				663A47E41D7E087B00393718 /* AppDelegate.swift */,
+				663A47E81D7E087B00393718 /* Main.storyboard */,
+				663A48111D7E15A900393718 /* CustomTableViewCell.swift */,
+				663A480F1D7E14E700393718 /* HomeTableViewController.swift */,
+				664DA5001D7F7175001D8D81 /* EditTableViewController.swift */,
+				663A47F01D7E087B00393718 /* LaunchScreen.storyboard */,
+			);
+			name = UI;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -225,13 +255,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				663A48101D7E14E700393718 /* HomeTableViewController.swift in Sources */,
+				664DA50D1D814BB1001D8D81 /* Array+Extension.swift in Sources */,
 				663A48121D7E15A900393718 /* CustomTableViewCell.swift in Sources */,
 				663A48181D7E25E800393718 /* WorkSlot+CoreDataProperties.swift in Sources */,
+				664DA5111D814C8B001D8D81 /* NSDate+Extension.swift in Sources */,
+				664DA50B1D814B93001D8D81 /* UIView+Extension.swift in Sources */,
 				663A48191D7E25E800393718 /* WorkSlot.swift in Sources */,
 				663A47ED1D7E087B00393718 /* ClockIn.xcdatamodeld in Sources */,
 				664DA5011D7F7175001D8D81 /* EditTableViewController.swift in Sources */,
 				663A47E51D7E087B00393718 /* AppDelegate.swift in Sources */,
-				663A48141D7E245900393718 /* NSDate+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

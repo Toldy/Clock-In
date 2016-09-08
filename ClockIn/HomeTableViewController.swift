@@ -9,37 +9,16 @@
 import UIKit
 import CoreData
 
-class WorkSlotItems {
-    
-    var sections: [NSDate] = []
-    var items: [[WorkSlot]] = []
-    
-    var totalWorked = 0
-    
-    func addSection(section: NSDate, items:[WorkSlot]){
-        sections = sections + [section]
-        self.items = self.items + [items]
-        
-        for item in items {
-            if let end = item.end {
-                totalWorked += end.minutesFrom(item.begin)
-            }
-        }
-    }
-}
-
 class HomeTableViewController: UIViewController {
 
     // MARK: Outlets
+    
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var statsLabel: UILabel!
     
     @IBOutlet weak var sectionHeaderLabel: UILabel!
     @IBOutlet var sectionHeaderView: UIView!
-    /**
- 
-     - Return: toto: totoror
-     */
+
     @IBAction func actionClockIn(sender: AnyObject) {
         if let workSlot = workSlotItems.items[0].first where workSlot.end == nil {
             workSlot.end = NSDate()
@@ -251,32 +230,4 @@ extension HomeTableViewController : UITableViewDelegate {
         return view
     }
     
-}
-
-
-// MARK: - UIView Extensions
-
-extension UIView
-{
-    func copyView() -> AnyObject
-    {
-        return NSKeyedUnarchiver.unarchiveObjectWithData(NSKeyedArchiver.archivedDataWithRootObject(self))!
-    }
-}
-
-
-// MARK: - Swift 2 Array Extension
-
-extension Array where Element: Equatable {
-    mutating func removeObject(object: Element) {
-        if let index = self.indexOf(object) {
-            self.removeAtIndex(index)
-        }
-    }
-    
-    mutating func removeObjectsInArray(array: [Element]) {
-        for object in array {
-            self.removeObject(object)
-        }
-    }
 }

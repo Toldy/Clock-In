@@ -10,8 +10,24 @@ import Foundation
 import CoreData
 
 
-class WorkSlot: NSManagedObject {
+class WorkSlot: NSManagedObject { }
 
-// Insert code here to add functionality to your managed object subclass
 
+class WorkSlotItems {
+    
+    var sections: [NSDate] = []
+    var items: [[WorkSlot]] = []
+    
+    var totalWorked = 0
+    
+    func addSection(section: NSDate, items:[WorkSlot]){
+        sections = sections + [section]
+        self.items = self.items + [items]
+        
+        for item in items {
+            if let end = item.end {
+                totalWorked += end.minutesFrom(item.begin)
+            }
+        }
+    }
 }
