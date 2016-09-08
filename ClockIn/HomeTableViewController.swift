@@ -23,6 +23,7 @@ class HomeTableViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var statsLabel: UILabel!
+    @IBOutlet weak var daysWorkedLabel: UILabel!
     @IBOutlet weak var sectionHeaderLabel: UILabel!
     @IBOutlet var sectionHeaderView: UIView!
     @IBOutlet weak var sectionStatsLabel: UILabel!
@@ -114,25 +115,56 @@ class HomeTableViewController: UIViewController {
     }
     
     func updateStats() {
-        setStatsToLabel(workSlotItems.totalWorked, to: statsLabel, normalColor: 🖌.lightGreyColor, highlighColor: 🖌.materialRedColor, prefix: "Total : ")
+        updateStatsLabel()
+        updateDaysWorkedLabel()
+
+        
     }
     
-    func setStatsToLabel(minutesWorked: Int, to label : UILabel, normalColor: UIColor, highlighColor: UIColor, prefix: String = "", suffix: String = "") {
+    func updateStatsLabel() {
+        let daysWorked = workSlotItems.totalWorked / (60 * 24)
+        let hoursWorked = workSlotItems.totalWorked % (60 * 24) / 60
+        let minutesWorked = workSlotItems.totalWorked % 60
+        
         let style = NSMutableParagraphStyle()
         style.alignment = NSTextAlignment.Center
         style.lineBreakMode = NSLineBreakMode.ByWordWrapping
+
         let font1 = UIFont.systemFontOfSize(15)
         let font2 = UIFont.boldSystemFontOfSize(15)
-        let dict1 = [NSForegroundColorAttributeName:normalColor, NSFontAttributeName: font1, NSParagraphStyleAttributeName: style]
-        let dict2 = [NSForegroundColorAttributeName:highlighColor, NSFontAttributeName: font2, NSParagraphStyleAttributeName: style]
-        let signInString = NSMutableAttributedString()
-        signInString.appendAttributedString(NSAttributedString(string: prefix, attributes: dict1))
-        signInString.appendAttributedString(NSAttributedString(string: "\(minutesWorked / 60)", attributes: dict2))
-        signInString.appendAttributedString(NSAttributedString(string: "h ", attributes: dict1))
-        signInString.appendAttributedString(NSAttributedString(string: "\(minutesWorked % 60)", attributes: dict2))
-        signInString.appendAttributedString(NSAttributedString(string: "m", attributes: dict1))
-        signInString.appendAttributedString(NSAttributedString(string: suffix, attributes: dict1))
-        label.attributedText = signInString
+
+        let dict1 = [NSForegroundColorAttributeName:🖌.lightGreyColor, NSFontAttributeName: font1, NSParagraphStyleAttributeName: style]
+        let dict2 = [NSForegroundColorAttributeName:🖌.materialRedColor, NSFontAttributeName: font2, NSParagraphStyleAttributeName: style]
+
+        let attributedString = NSMutableAttributedString()
+        if daysWorked != 0 {
+            attributedString.appendAttributedString(NSAttributedString(string: "\(daysWorked)", attributes: dict2))
+            attributedString.appendAttributedString(NSAttributedString(string: "j ", attributes: dict1))
+        }
+        attributedString.appendAttributedString(NSAttributedString(string: String(format: "%02d", hoursWorked), attributes: dict2))
+        attributedString.appendAttributedString(NSAttributedString(string: "h ", attributes: dict1))
+        attributedString.appendAttributedString(NSAttributedString(string: String(format: "%02d", minutesWorked), attributes: dict2))
+        attributedString.appendAttributedString(NSAttributedString(string: "m", attributes: dict1))
+
+        statsLabel.attributedText = attributedString
+    }
+    
+    func updateDaysWorkedLabel() {
+        let daysWorked = workSlotItems.sections.count
+        
+        let style = NSMutableParagraphStyle()
+        style.alignment = NSTextAlignment.Left
+        style.lineBreakMode = NSLineBreakMode.ByWordWrapping
+        
+        let font = UIFont.boldSystemFontOfSize(15)
+        
+        let dict = [NSForegroundColorAttributeName:🖌.materialRedColor, NSFontAttributeName: font, NSParagraphStyleAttributeName: style]
+        
+        let attributedString = NSMutableAttributedString()
+        attributedString.appendAttributedString(NSAttributedString(string: "\(daysWorked)", attributes: dict))
+        
+        daysWorkedLabel.attributedText = attributedString
+        
     }
     
     func getDayMonthYearOfDate(date: NSDate) -> (Int, Int, Int) {
@@ -231,7 +263,7 @@ extension HomeTableViewController : UITableViewDelegate {
     }
     
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 34
+        return 42
     }
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -241,8 +273,9 @@ extension HomeTableViewController : UITableViewDelegate {
         let formatter = NSDateFormatter()
         formatter.dateStyle = .LongStyle
         
-        sectionHeaderLabel.text = formatter.stringFromDate(dataForTitle)
-        setStatsToLabel(workSlotItems.totalTimeForSection(section), to: sectionStatsLabel, normalColor: 🖌.lightGreyColor, highlighColor: 🖌.materialBlueColor, prefix: "(", suffix: ")")
+        sectionHeaderLabel.text = formatter.stringFromDate(dataForTitle).uppercaseString
+        let time = workSlotItems.totalTimeForSection(section)
+        sectionStatsLabel.text = "\(time / 60) hrs \(time % 60) min"
         
         let view = sectionHeaderView.copyView() as! UIView
         return view
