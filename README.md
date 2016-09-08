@@ -9,7 +9,6 @@ Don't complain about anything please, it is just life :)
 
 Enjoy my Awesome design, It's Just For YOU
 
-<img src="https://github.com/Toldy/Clock-In/raw/master/Assets/AWESOME_SCREENSHOT_INTRO.png" alt="I'M BIG" width="500">
-<img src="https://github.com/Toldy/Clock-In/raw/master/Assets/AWESOME_SCREENSHOT_EDIT.png" alt="I'M BIG" width="500">
+<img src="https://github.com/Toldy/Clock-In/raw/master/Assets/AWESOME_GIF.gif" width="480">
 
 ##KISSES, Toldino
