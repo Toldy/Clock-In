@@ -5,6 +5,11 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="HelveticaNeue.ttc">
+            <string>HelveticaNeue</string>
+        </mutableArray>
+    </customFonts>
     <scenes>
         <!--Clock In-->
         <scene sceneID="VHw-57-Lfv">
@@ -56,13 +61,13 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="#begin" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zx5-H1-5df">
-                                                    <rect key="frame" x="8" y="11" width="286" height="21"/>
+                                                    <rect key="frame" x="16" y="11" width="282" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="#end" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iEj-XW-CbB">
-                                                    <rect key="frame" x="306" y="11" width="286" height="21"/>
+                                                    <rect key="frame" x="310" y="11" width="282" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -73,9 +78,15 @@
                                                 <constraint firstItem="iEj-XW-CbB" firstAttribute="width" secondItem="zx5-H1-5df" secondAttribute="width" id="Exf-DI-p6k"/>
                                                 <constraint firstItem="iEj-XW-CbB" firstAttribute="leading" secondItem="zx5-H1-5df" secondAttribute="trailing" constant="12" id="KRy-Lj-bqh"/>
                                                 <constraint firstItem="iEj-XW-CbB" firstAttribute="centerY" secondItem="zx5-H1-5df" secondAttribute="centerY" id="Ung-DC-MLH"/>
+                                                <constraint firstItem="zx5-H1-5df" firstAttribute="leading" secondItem="bc8-cO-8d9" secondAttribute="leading" constant="16" id="VBv-Xs-2Pa"/>
                                                 <constraint firstItem="zx5-H1-5df" firstAttribute="leading" secondItem="bc8-cO-8d9" secondAttribute="leadingMargin" id="cSR-5e-Omc"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="iEj-XW-CbB" secondAttribute="trailing" id="oIM-xV-kuh"/>
                                             </constraints>
+                                            <variation key="default">
+                                                <mask key="constraints">
+                                                    <exclude reference="cSR-5e-Omc"/>
+                                                </mask>
+                                            </variation>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="begin" destination="zx5-H1-5df" id="Mlg-88-ohJ"/>
@@ -108,18 +119,25 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lpE-59-l1h">
-                            <rect key="frame" x="8" y="8" width="572" height="18"/>
+                            <rect key="frame" x="16" y="10" width="564" height="18"/>
                             <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
-                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="textColor" red="0.12941176470588234" green="0.12941176470588234" blue="0.12941176470588234" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                     </subviews>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" red="0.97254901960784312" green="0.97254901960784312" blue="0.97254901960784312" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
+                        <constraint firstItem="lpE-59-l1h" firstAttribute="top" secondItem="ztT-8u-ao5" secondAttribute="top" constant="10" id="Geq-t3-JHM"/>
                         <constraint firstAttribute="trailing" secondItem="lpE-59-l1h" secondAttribute="trailing" constant="20" symbolic="YES" id="gZD-Fe-WKW"/>
+                        <constraint firstAttribute="bottom" secondItem="lpE-59-l1h" secondAttribute="bottom" constant="6" id="jur-Ig-9wd"/>
                         <constraint firstItem="lpE-59-l1h" firstAttribute="centerY" secondItem="ztT-8u-ao5" secondAttribute="centerY" id="kX9-aT-SOt"/>
-                        <constraint firstItem="lpE-59-l1h" firstAttribute="leading" secondItem="ztT-8u-ao5" secondAttribute="leadingMargin" id="ulK-3e-kek"/>
+                        <constraint firstItem="lpE-59-l1h" firstAttribute="leading" secondItem="ztT-8u-ao5" secondAttribute="leading" constant="16" id="ulK-3e-kek"/>
                     </constraints>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="kX9-aT-SOt"/>
+                        </mask>
+                    </variation>
                 </view>
             </objects>
             <point key="canvasLocation" x="2203" y="466"/>
@@ -143,7 +161,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Begin" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="nlw-nM-zv3">
-                                                    <rect key="frame" x="5" y="12" width="42" height="20"/>
+                                                    <rect key="frame" x="15" y="12" width="42" height="20"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -241,6 +259,15 @@
                             <outlet property="delegate" destination="Y3l-NF-jlZ" id="iGf-qE-vOb"/>
                         </connections>
                     </tableView>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" id="nD0-H2-Ds1">
+                        <barButtonItem key="rightBarButtonItem" title="Ok" id="0t1-BB-9fK">
+                            <connections>
+                                <action selector="submitChangesAction:" destination="Y3l-NF-jlZ" id="FPH-Qw-Ull"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="beginDatePicker" destination="erZ-9E-fVi" id="QqK-KO-nkV"/>
                         <outlet property="beginDetailLabel" destination="cRn-T5-nN3" id="rs5-SB-3sM"/>
@@ -260,6 +287,7 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="5xr-ra-vdB">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <color key="barTintColor" red="0.2470588235" green="0.31764705879999999" blue="0.70980392160000005" alpha="1" colorSpace="calibratedRGB"/>
                         <textAttributes key="titleTextAttributes">
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

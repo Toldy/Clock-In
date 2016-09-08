@@ -23,6 +23,10 @@ class EditTableViewController: UITableViewController {
     @IBAction func datePickerEndValue(sender: UIDatePicker) {
         datePickerEndChanged()
     }
+    @IBAction func submitChangesAction(sender: AnyObject) {
+        completionHandler(beginDatePicker.date, endDatePicker.date)
+        navigationController?.popViewControllerAnimated(true)
+    }
     
     var initializationHandler: ((UIDatePicker, UIDatePicker)->Void)!
     var completionHandler: ((NSDate, NSDate)->Void)!
@@ -34,12 +38,6 @@ class EditTableViewController: UITableViewController {
         
         datePickerBeginChanged()
         datePickerEndChanged()
-    }
-    
-    override func willMoveToParentViewController(parent: UIViewController?) {
-        if parent == nil {
-            completionHandler(beginDatePicker.date, endDatePicker.date)
-        }
     }
     
     func datePickerBeginChanged () {

@@ -9,6 +9,25 @@
 import UIKit
 import CoreData
 
+class WorkSlotItems {
+    
+    var sections: [NSDate] = []
+    var items: [[WorkSlot]] = []
+    
+    var totalWorked = 0
+    
+    func addSection(section: NSDate, items:[WorkSlot]){
+        sections = sections + [section]
+        self.items = self.items + [items]
+        
+        for item in items {
+            if let end = item.end {
+                totalWorked += end.minutesFrom(item.begin)
+            }
+        }
+    }
+}
+
 class HomeTableViewController: UIViewController {
 
     // MARK: Outlets
@@ -17,9 +36,12 @@ class HomeTableViewController: UIViewController {
     
     @IBOutlet weak var sectionHeaderLabel: UILabel!
     @IBOutlet var sectionHeaderView: UIView!
-    
+    /**
+ 
+     - Return: toto: totoror
+     */
     @IBAction func actionClockIn(sender: AnyObject) {
-        if let workSlot = workSlots.first where workSlot.end == nil {
+        if let workSlot = workSlotItems.items[0].first where workSlot.end == nil {
             workSlot.end = NSDate()
             coreDataUpdate(workSlot)
         } else {
@@ -29,31 +51,12 @@ class HomeTableViewController: UIViewController {
         tableView.reloadData()
     }
     
-    let managedObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
+    private let managedObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
+    
+    private var workSlotItems = WorkSlotItems()
     
     
-    var sortedWorkSlots: [Int : [WorkSlot]] = [:]
-    var workSlots = [WorkSlot]() {
-        didSet {
-            var t = 0
-            for slot in workSlots {
-                if let end = slot.end {
-                    t += end.minutesFrom(slot.begin)
-                }
-            }
-            totalWorked = t
-            sortedWorkSlots = getSortedWorkSlots()
-        }
-    }
-    
-    var totalWorked = 0 {
-        didSet {
-            updateStats()
-        }
-    }
-    
-    
-    // MARK: Life-cycle
+    // MARK: - Life-cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -63,7 +66,7 @@ class HomeTableViewController: UIViewController {
         
         setupUI()
 
-        workSlots = coreDataRead()
+        coreDataRead()
         tableView.reloadData()
     }
 
@@ -121,49 +124,40 @@ class HomeTableViewController: UIViewController {
         
         let signInString = NSMutableAttributedString()
         signInString.appendAttributedString(NSAttributedString(string: "Total : ", attributes: dict1))
-        signInString.appendAttributedString(NSAttributedString(string: "\(totalWorked/60)", attributes: dict2))
+        signInString.appendAttributedString(NSAttributedString(string: "\(workSlotItems.totalWorked / 60)", attributes: dict2))
         signInString.appendAttributedString(NSAttributedString(string: "h ", attributes: dict1))
-        signInString.appendAttributedString(NSAttributedString(string: "\(totalWorked%60)", attributes: dict2))
+        signInString.appendAttributedString(NSAttributedString(string: "\(workSlotItems.totalWorked % 60)", attributes: dict2))
         signInString.appendAttributedString(NSAttributedString(string: "m", attributes: dict1))
         
         statsLabel.attributedText = signInString
     }
     
-    func getSortedWorkSlots() -> [Int : [WorkSlot]] {
-        var sortedWorkSlots: [Int : [WorkSlot]] = [:]
-        for slot in workSlots {
-            
-            let day = getDayMonthYearOfDate(slot.begin)
-
-            if var found = sortedWorkSlots[day] {
-                sortedWorkSlots[day]!.append(slot)
-            } else {
-                sortedWorkSlots[day] = [slot]
-            }
-        }
-        return sortedWorkSlots
-    }
-   
-    
-    func getDayMonthYearOfDate(date: NSDate) -> Int {
+    func getDayMonthYearOfDate(date: NSDate) -> (Int, Int, Int) {
         let calendar = NSCalendar.currentCalendar()
         let components = calendar.components([.Day , .Month , .Year], fromDate: date)
-        return components.year * 10000 + components.month * 100 + components.day
+        return (components.year, components.month, components.day)
     }
+
+    func compareOnlyDayMonthYear(first: NSDate, second: NSDate) -> Bool {
+        return getDayMonthYearOfDate(first) == getDayMonthYearOfDate(second)
+    }
+    
     
     // MARK: - Core Data
     
-    func coreDataRead() -> [WorkSlot] {
+    func coreDataRead() {
         let fetchRequest = NSFetchRequest(entityName: "WorkSlot")
         do {
-            let fetchResults = try self.managedObjectContext.executeFetchRequest(fetchRequest) as? [WorkSlot]
-            if  let fetchResults = fetchResults {
-                return fetchResults.sort({ $0.begin > $1.begin })
+            if var results = try self.managedObjectContext.executeFetchRequest(fetchRequest).sort({ $0.begin > $1.begin }) as? [WorkSlot] {
+                workSlotItems = WorkSlotItems()
+                while let first = results.first {
+                    let items = results.filter { compareOnlyDayMonthYear($0.begin, second: first.begin) }
+                    workSlotItems.addSection(first.begin, items: items)
+                    results.removeObjectsInArray(items)
+                }
             }
-        } catch {
-            print("LEL. Did you really got an error ?!")
-        }
-        return []
+            updateStats()
+        } catch { print("LEL. Did you really got an error ?!") }
     }
     
     func coreDataUpdate(workSlot: WorkSlot) {
@@ -174,7 +168,7 @@ class HomeTableViewController: UIViewController {
             print(saveError)
         }
         
-        workSlots = coreDataRead()
+        coreDataRead()
     }
     
     func coreDataDelete(workSlot: WorkSlot) {
@@ -187,7 +181,7 @@ class HomeTableViewController: UIViewController {
             print(saveError)
         }
         
-        workSlots = coreDataRead()
+        coreDataRead()
     }
     
     func coreDataCreate(begin: NSDate, end: NSDate? = nil) {
@@ -195,7 +189,7 @@ class HomeTableViewController: UIViewController {
         newSlot.begin = begin
         newSlot.end = end
         
-        workSlots = coreDataRead()
+        coreDataRead()
     }
     
 }
@@ -206,17 +200,17 @@ class HomeTableViewController: UIViewController {
 extension HomeTableViewController : UITableViewDataSource {
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return Array(sortedWorkSlots.values)[section].count
+        return workSlotItems.items[section].count
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return sortedWorkSlots.count
+        return workSlotItems.sections.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! CustomTableViewCell
         
-        let data = Array(sortedWorkSlots.values)[indexPath.section][indexPath.row]
+        let data = workSlotItems.items[indexPath.section][indexPath.row]
         
         // Cell Data
 
@@ -233,7 +227,7 @@ extension HomeTableViewController : UITableViewDelegate {
     
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == .Delete {
-            coreDataDelete(Array(sortedWorkSlots.values)[indexPath.section][indexPath.row])
+            coreDataDelete(workSlotItems.items[indexPath.section][indexPath.row])
             tableView.reloadData()
         }
     }
@@ -244,14 +238,21 @@ extension HomeTableViewController : UITableViewDelegate {
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
 
-        sectionHeaderLabel.text = "Day - \(section)"
+        let dataForTitle = workSlotItems.sections[section]
         
-        var view = sectionHeaderView.copyView() as! UIView
+        let formatter = NSDateFormatter()
+        formatter.dateStyle = .LongStyle
+        
+        sectionHeaderLabel.text = formatter.stringFromDate(dataForTitle)
+        
+
+        let view = sectionHeaderView.copyView() as! UIView
         
         return view
     }
     
 }
+
 
 // MARK: - UIView Extensions
 
@@ -260,5 +261,22 @@ extension UIView
     func copyView() -> AnyObject
     {
         return NSKeyedUnarchiver.unarchiveObjectWithData(NSKeyedArchiver.archivedDataWithRootObject(self))!
+    }
+}
+
+
+// MARK: - Swift 2 Array Extension
+
+extension Array where Element: Equatable {
+    mutating func removeObject(object: Element) {
+        if let index = self.indexOf(object) {
+            self.removeAtIndex(index)
+        }
+    }
+    
+    mutating func removeObjectsInArray(array: [Element]) {
+        for object in array {
+            self.removeObject(object)
+        }
     }
 }
