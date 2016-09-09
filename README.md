@@ -18,7 +18,7 @@ Enjoy my Awesome design, It's Just For YOU
 
 <img src="https://github.com/Toldy/Clock-In/raw/master/Assets/AWESOME_SCREENSHOT_EDIT.png" alt="I'M BIG" width="500">
 
-## How it works
+# How it works
 
 The gif is not up to date with design. At least,it briefly shows how the app rocks. Kappa
 
