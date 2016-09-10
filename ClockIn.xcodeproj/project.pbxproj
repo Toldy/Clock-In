@@ -22,6 +22,9 @@
 		664DA50D1D814BB1001D8D81 /* Array+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664DA50C1D814BB1001D8D81 /* Array+Extension.swift */; };
 		664DA5111D814C8B001D8D81 /* NSDate+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664DA5101D814C8B001D8D81 /* NSDate+Extension.swift */; };
 		664DA5141D81657E001D8D81 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664DA5131D81657E001D8D81 /* UIColor+Extension.swift */; };
+		66FFBBB11D82C26400E351A6 /* DoubleStateButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FFBBB01D82C26400E351A6 /* DoubleStateButton.swift */; };
+		66FFBBB51D82CB1B00E351A6 /* MultipleStatesButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FFBBB41D82CB1B00E351A6 /* MultipleStatesButton.swift */; };
+		66FFBBB71D82DCFD00E351A6 /* HoursWorkedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FFBBB61D82DCFD00E351A6 /* HoursWorkedButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +57,9 @@
 		664DA50C1D814BB1001D8D81 /* Array+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Array+Extension.swift"; path = "Helpers/Array+Extension.swift"; sourceTree = "<group>"; };
 		664DA5101D814C8B001D8D81 /* NSDate+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSDate+Extension.swift"; path = "Helpers/NSDate+Extension.swift"; sourceTree = "<group>"; };
 		664DA5131D81657E001D8D81 /* UIColor+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIColor+Extension.swift"; path = "Helpers/UIColor+Extension.swift"; sourceTree = "<group>"; };
+		66FFBBB01D82C26400E351A6 /* DoubleStateButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DoubleStateButton.swift; path = "UI/Custom Views/DoubleStateButton.swift"; sourceTree = "<group>"; };
+		66FFBBB41D82CB1B00E351A6 /* MultipleStatesButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultipleStatesButton.swift; sourceTree = "<group>"; };
+		66FFBBB61D82DCFD00E351A6 /* HoursWorkedButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HoursWorkedButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -145,6 +151,7 @@
 		664DA5121D814CA6001D8D81 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				66FFBBAF1D82C1DB00E351A6 /* Custom Views */,
 				663A47E41D7E087B00393718 /* AppDelegate.swift */,
 				663A47E81D7E087B00393718 /* Main.storyboard */,
 				663A48111D7E15A900393718 /* CustomTableViewCell.swift */,
@@ -153,6 +160,16 @@
 				663A47F01D7E087B00393718 /* LaunchScreen.storyboard */,
 			);
 			name = UI;
+			sourceTree = "<group>";
+		};
+		66FFBBAF1D82C1DB00E351A6 /* Custom Views */ = {
+			isa = PBXGroup;
+			children = (
+				66FFBBB01D82C26400E351A6 /* DoubleStateButton.swift */,
+				66FFBBB41D82CB1B00E351A6 /* MultipleStatesButton.swift */,
+				66FFBBB61D82DCFD00E351A6 /* HoursWorkedButton.swift */,
+			);
+			name = "Custom Views";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -257,9 +274,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				66FFBBB71D82DCFD00E351A6 /* HoursWorkedButton.swift in Sources */,
 				663A48101D7E14E700393718 /* HomeTableViewController.swift in Sources */,
 				664DA50D1D814BB1001D8D81 /* Array+Extension.swift in Sources */,
+				66FFBBB11D82C26400E351A6 /* DoubleStateButton.swift in Sources */,
 				663A48121D7E15A900393718 /* CustomTableViewCell.swift in Sources */,
+				66FFBBB51D82CB1B00E351A6 /* MultipleStatesButton.swift in Sources */,
 				664DA5141D81657E001D8D81 /* UIColor+Extension.swift in Sources */,
 				663A48181D7E25E800393718 /* WorkSlot+CoreDataProperties.swift in Sources */,
 				664DA5111D814C8B001D8D81 /* NSDate+Extension.swift in Sources */,

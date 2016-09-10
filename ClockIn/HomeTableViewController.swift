@@ -22,13 +22,15 @@ class HomeTableViewController: UIViewController {
     // MARK: Outlets
     
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var statsLabel: UILabel!
-    @IBOutlet weak var daysWorkedLabel: UILabel!
-    @IBOutlet weak var sectionHeaderLabel: UILabel!
-    @IBOutlet var sectionHeaderView: UIView!
-    @IBOutlet weak var sectionStatsLabel: UILabel!
+
     @IBOutlet weak var headerView: UIView!
-    @IBOutlet weak var checkButton: UIButton!
+    @IBOutlet weak var headerTotalTimeButton: HoursWorkedButton!
+    @IBOutlet weak var headerTotalDaysLabel: UILabel!
+    @IBOutlet weak var headerCheckButton: DoubleStateButton!
+    
+    @IBOutlet      var sectionHeaderView: UIView!
+    @IBOutlet weak var sectionHeaderDateLabel: UILabel!
+    @IBOutlet weak var sectionHeaderTimeLabel: UILabel!
     
     @IBAction func actionCheck(sender: AnyObject) {
         if let workSlot = workSlotItems.items[0].first where workSlot.end == nil {
@@ -41,7 +43,6 @@ class HomeTableViewController: UIViewController {
     }
     
     private let managedObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
-    
     private var workSlotItems = WorkSlotItems()
     
     
@@ -94,62 +95,22 @@ class HomeTableViewController: UIViewController {
         tableView.setEditing(editing, animated: animated)
     }
     
-    // MARK: - UI Update
-    
-    func updateUI() {
-        updateStats()
-        updateCheckButton()
-    }
-    
     func setupUI() {
         headerView.userInteractionEnabled = true
-        navigationItem.rightBarButtonItem = self.editButtonItem()
-    }
-
-    func updateCheckButton() {
-        if let _ = workSlotItems.items[0][0].end {
-            checkButton.setTitle("Check In", forState: UIControlState.Normal)
-        } else {
-        checkButton.setTitle("Check Out", forState: UIControlState.Normal)
-        }
     }
     
-    func updateStats() {
-        updateStatsLabel()
+    // MARK: - UI Update
+    
+    private func updateUI() {
+        updateHeaderBar()
+    }
+    
+    private func updateHeaderBar() {
+        headerTotalTimeButton.minutesWorked = workSlotItems.totalWorked
         updateDaysWorkedLabel()
-
-        
     }
-    
-    func updateStatsLabel() {
-        let daysWorked = workSlotItems.totalWorked / (60 * 24)
-        let hoursWorked = workSlotItems.totalWorked % (60 * 24) / 60
-        let minutesWorked = workSlotItems.totalWorked % 60
         
-        let style = NSMutableParagraphStyle()
-        style.alignment = NSTextAlignment.Center
-        style.lineBreakMode = NSLineBreakMode.ByWordWrapping
-
-        let font1 = UIFont.systemFontOfSize(15)
-        let font2 = UIFont.boldSystemFontOfSize(15)
-
-        let dict1 = [NSForegroundColorAttributeName:🖌.lightGreyColor, NSFontAttributeName: font1, NSParagraphStyleAttributeName: style]
-        let dict2 = [NSForegroundColorAttributeName:🖌.materialRedColor, NSFontAttributeName: font2, NSParagraphStyleAttributeName: style]
-
-        let attributedString = NSMutableAttributedString()
-        if daysWorked != 0 {
-            attributedString.appendAttributedString(NSAttributedString(string: "\(daysWorked)", attributes: dict2))
-            attributedString.appendAttributedString(NSAttributedString(string: "j ", attributes: dict1))
-        }
-        attributedString.appendAttributedString(NSAttributedString(string: String(format: "%02d", hoursWorked), attributes: dict2))
-        attributedString.appendAttributedString(NSAttributedString(string: "h ", attributes: dict1))
-        attributedString.appendAttributedString(NSAttributedString(string: String(format: "%02d", minutesWorked), attributes: dict2))
-        attributedString.appendAttributedString(NSAttributedString(string: "m", attributes: dict1))
-
-        statsLabel.attributedText = attributedString
-    }
-    
-    func updateDaysWorkedLabel() {
+    private func updateDaysWorkedLabel() {
         let daysWorked = workSlotItems.sections.count
         
         let style = NSMutableParagraphStyle()
@@ -163,24 +124,14 @@ class HomeTableViewController: UIViewController {
         let attributedString = NSMutableAttributedString()
         attributedString.appendAttributedString(NSAttributedString(string: "\(daysWorked)", attributes: dict))
         
-        daysWorkedLabel.attributedText = attributedString
+        headerTotalDaysLabel.attributedText = attributedString
         
-    }
-    
-    func getDayMonthYearOfDate(date: NSDate) -> (Int, Int, Int) {
-        let calendar = NSCalendar.currentCalendar()
-        let components = calendar.components([.Day , .Month , .Year], fromDate: date)
-        return (components.year, components.month, components.day)
-    }
-
-    func compareOnlyDayMonthYear(first: NSDate, second: NSDate) -> Bool {
-        return getDayMonthYearOfDate(first) == getDayMonthYearOfDate(second)
     }
     
     
     // MARK: - Core Data
     
-    func coreDataRead() {
+    private func coreDataRead() {
         let fetchRequest = NSFetchRequest(entityName: "WorkSlot")
         do {
             
@@ -198,7 +149,7 @@ class HomeTableViewController: UIViewController {
         } catch { print("LEL. Did you really got an error ?!") }
     }
     
-    func coreDataUpdate(workSlot: WorkSlot) {
+    private func coreDataUpdate(workSlot: WorkSlot) {
         do {
             
             try workSlot.managedObjectContext?.save()
@@ -207,7 +158,7 @@ class HomeTableViewController: UIViewController {
         } catch { print("LEL. Did you really got an error ?!") }
     }
     
-    func coreDataDelete(workSlot: WorkSlot) {
+    private func coreDataDelete(workSlot: WorkSlot) {
         self.managedObjectContext.deleteObject(workSlot)
         do {
             
@@ -217,12 +168,24 @@ class HomeTableViewController: UIViewController {
         } catch { print("LEL. Did you really got an error ?!") }
     }
     
-    func coreDataCreate(begin: NSDate, end: NSDate? = nil) {
+    private func coreDataCreate(begin: NSDate, end: NSDate? = nil) {
         let newSlot = NSEntityDescription.insertNewObjectForEntityForName("WorkSlot", inManagedObjectContext: self.managedObjectContext) as! WorkSlot
         newSlot.begin = begin
         newSlot.end = end
         
         coreDataRead()
+    }
+    
+    // MARK: Misc
+    
+    private func getDayMonthYearOfDate(date: NSDate) -> (Int, Int, Int) {
+        let calendar = NSCalendar.currentCalendar()
+        let components = calendar.components([.Day , .Month , .Year], fromDate: date)
+        return (components.year, components.month, components.day)
+    }
+    
+    private func compareOnlyDayMonthYear(first: NSDate, second: NSDate) -> Bool {
+        return getDayMonthYearOfDate(first) == getDayMonthYearOfDate(second)
     }
     
 }
@@ -273,9 +236,9 @@ extension HomeTableViewController : UITableViewDelegate {
         let formatter = NSDateFormatter()
         formatter.dateStyle = .LongStyle
         
-        sectionHeaderLabel.text = formatter.stringFromDate(dataForTitle).uppercaseString
+        sectionHeaderDateLabel.text = formatter.stringFromDate(dataForTitle).uppercaseString
         let time = workSlotItems.totalTimeForSection(section)
-        sectionStatsLabel.text = "\(time / 60) hrs \(time % 60) min"
+        sectionHeaderTimeLabel.text = "\(time / 60) hrs \(time % 60) min"
         
         let view = sectionHeaderView.copyView() as! UIView
         return view
