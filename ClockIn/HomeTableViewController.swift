@@ -26,7 +26,7 @@ class HomeTableViewController: UIViewController {
     @IBOutlet weak var sectionHeaderTimeLabel: UILabel!
     
     @IBAction func actionCheck(sender: AnyObject) {
-        if let workSlot = workSlotItems.items[0].first where workSlot.end == nil {
+        if let workSlot = workSlotItems.items[safe: 0]?.first where workSlot.end == nil {
             workSlot.end = NSDate()
             coreDataUpdate(workSlot)
         } else {
