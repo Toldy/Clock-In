@@ -53,8 +53,6 @@ extension NSDate {
 }
 
 
-
-
 private func getDayMonthYearOfDate(date: NSDate) -> (Int, Int, Int) {
     let calendar = NSCalendar.currentCalendar()
     let components = calendar.components([.Day , .Month , .Year], fromDate: date)
@@ -68,3 +66,4 @@ extension NSDate {
         return self === rhs || getDayMonthYearOfDate(self) == getDayMonthYearOfDate(rhs)
     }
 }
+

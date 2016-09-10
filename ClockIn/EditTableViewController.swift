@@ -23,7 +23,9 @@ class EditTableViewController: UITableViewController {
     @IBAction func datePickerEndValue(sender: UIDatePicker) {
         datePickerEndChanged()
     }
+    
     @IBAction func submitChangesAction(sender: AnyObject) {
+        
         if beginDatePicker.date > endDatePicker.date {
             Popup.show(self, title: "Ooops 😞", message: "Your begin is set after the end !\nDo you want to swap them ?", okTitle: "YES !", cancelTitle: "Cancel") { (Void) in
                 let tmpSwap = self.beginDatePicker.date
@@ -33,8 +35,15 @@ class EditTableViewController: UITableViewController {
             return
         }
         
+        // Begin Day != End Day
+        if !beginDatePicker.date.compareWithoutTime(endDatePicker.date) {
+            Popup.show(self, title: "Wow 😮", message: "For real, you cannot work more than 24h in a row...")
+            return
+        }
+        
         completionHandler(beginDatePicker.date, endDatePicker.date)
         navigationController?.popViewControllerAnimated(true)
+        
     }
     
     var initializationHandler: ((UIDatePicker, UIDatePicker)->Void)!
