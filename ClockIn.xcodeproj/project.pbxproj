@@ -22,6 +22,7 @@
 		664DA50D1D814BB1001D8D81 /* Array+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664DA50C1D814BB1001D8D81 /* Array+Extension.swift */; };
 		664DA5111D814C8B001D8D81 /* NSDate+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664DA5101D814C8B001D8D81 /* NSDate+Extension.swift */; };
 		664DA5141D81657E001D8D81 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664DA5131D81657E001D8D81 /* UIColor+Extension.swift */; };
+		665C3E1A1D8481F40052CC32 /* Popup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 665C3E191D8481F40052CC32 /* Popup.swift */; };
 		66FFBBB11D82C26400E351A6 /* DoubleStateButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FFBBB01D82C26400E351A6 /* DoubleStateButton.swift */; };
 		66FFBBB51D82CB1B00E351A6 /* MultipleStatesButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FFBBB41D82CB1B00E351A6 /* MultipleStatesButton.swift */; };
 		66FFBBB71D82DCFD00E351A6 /* HoursWorkedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FFBBB61D82DCFD00E351A6 /* HoursWorkedButton.swift */; };
@@ -57,6 +58,7 @@
 		664DA50C1D814BB1001D8D81 /* Array+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Array+Extension.swift"; path = "Helpers/Array+Extension.swift"; sourceTree = "<group>"; };
 		664DA5101D814C8B001D8D81 /* NSDate+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSDate+Extension.swift"; path = "Helpers/NSDate+Extension.swift"; sourceTree = "<group>"; };
 		664DA5131D81657E001D8D81 /* UIColor+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIColor+Extension.swift"; path = "Helpers/UIColor+Extension.swift"; sourceTree = "<group>"; };
+		665C3E191D8481F40052CC32 /* Popup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Popup.swift; path = Helpers/Popup.swift; sourceTree = "<group>"; };
 		66FFBBB01D82C26400E351A6 /* DoubleStateButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DoubleStateButton.swift; path = "UI/Custom Views/DoubleStateButton.swift"; sourceTree = "<group>"; };
 		66FFBBB41D82CB1B00E351A6 /* MultipleStatesButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultipleStatesButton.swift; sourceTree = "<group>"; };
 		66FFBBB61D82DCFD00E351A6 /* HoursWorkedButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HoursWorkedButton.swift; sourceTree = "<group>"; };
@@ -136,6 +138,7 @@
 				664DA50A1D814B93001D8D81 /* UIView+Extension.swift */,
 				664DA50C1D814BB1001D8D81 /* Array+Extension.swift */,
 				664DA5131D81657E001D8D81 /* UIColor+Extension.swift */,
+				665C3E191D8481F40052CC32 /* Popup.swift */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -286,6 +289,7 @@
 				664DA50B1D814B93001D8D81 /* UIView+Extension.swift in Sources */,
 				663A48191D7E25E800393718 /* WorkSlot.swift in Sources */,
 				663A47ED1D7E087B00393718 /* ClockIn.xcdatamodeld in Sources */,
+				665C3E1A1D8481F40052CC32 /* Popup.swift in Sources */,
 				664DA5011D7F7175001D8D81 /* EditTableViewController.swift in Sources */,
 				663A47E51D7E087B00393718 /* AppDelegate.swift in Sources */,
 			);
