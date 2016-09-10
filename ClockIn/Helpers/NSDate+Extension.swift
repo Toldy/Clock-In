@@ -51,3 +51,20 @@ extension NSDate {
         return ""
     }
 }
+
+
+
+
+private func getDayMonthYearOfDate(date: NSDate) -> (Int, Int, Int) {
+    let calendar = NSCalendar.currentCalendar()
+    let components = calendar.components([.Day , .Month , .Year], fromDate: date)
+    return (components.year, components.month, components.day)
+}
+
+extension NSDate {
+  
+    // Compare without taking care of the time
+    func compareWithoutTime(rhs: NSDate) -> Bool {
+        return self === rhs || getDayMonthYearOfDate(self) == getDayMonthYearOfDate(rhs)
+    }
+}

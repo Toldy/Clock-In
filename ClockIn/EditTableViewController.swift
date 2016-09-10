@@ -25,7 +25,7 @@ class EditTableViewController: UITableViewController {
     }
     @IBAction func submitChangesAction(sender: AnyObject) {
         if beginDatePicker.date > endDatePicker.date {
-            Popup.show(self, title: "Ooops ! 😞", message: "Your begin is set after the end !\nDo you want to swap them ?", okTitle: "YES !", cancelTitle: "Cancel") { (Void) in
+            Popup.show(self, title: "Ooops 😞", message: "Your begin is set after the end !\nDo you want to swap them ?", okTitle: "YES !", cancelTitle: "Cancel") { (Void) in
                 let tmpSwap = self.beginDatePicker.date
                 self.beginDatePicker.date = self.endDatePicker.date
                 self.endDatePicker.date = tmpSwap

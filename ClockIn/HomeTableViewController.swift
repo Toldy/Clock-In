@@ -9,13 +9,6 @@
 import UIKit
 import CoreData
 
-class 🖌 {
-    
-    static var lightGreyColor = UIColor(r: 33, g: 33, b: 33, a: 0.5)
-    static var materialRedColor = UIColor(r: 244, g: 67, b: 54)
-    static var materialBlueColor = UIColor(r: 63, g: 81, b: 181)
-}
-
 class HomeTableViewController: UIViewController {
 
     
@@ -138,7 +131,7 @@ class HomeTableViewController: UIViewController {
             if var results = try self.managedObjectContext.executeFetchRequest(fetchRequest).sort({ $0.begin > $1.begin }) as? [WorkSlot] {
                 workSlotItems = WorkSlotItems()
                 while let first = results.first {
-                    let items = results.filter { compareOnlyDayMonthYear($0.begin, second: first.begin) }
+                    let items = results.filter { $0.begin.compareWithoutTime(first.begin) }
                     workSlotItems.addSection(first.begin, items: items)
                     results.removeObjectsInArray(items)
                 }
@@ -174,18 +167,6 @@ class HomeTableViewController: UIViewController {
         newSlot.end = end
         
         coreDataRead()
-    }
-    
-    // MARK: Misc
-    
-    private func getDayMonthYearOfDate(date: NSDate) -> (Int, Int, Int) {
-        let calendar = NSCalendar.currentCalendar()
-        let components = calendar.components([.Day , .Month , .Year], fromDate: date)
-        return (components.year, components.month, components.day)
-    }
-    
-    private func compareOnlyDayMonthYear(first: NSDate, second: NSDate) -> Bool {
-        return getDayMonthYearOfDate(first) == getDayMonthYearOfDate(second)
     }
     
 }
