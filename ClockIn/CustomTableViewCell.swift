@@ -9,17 +9,17 @@
 import UIKit
 
 class CustomTableViewCell: UITableViewCell {
-    
+
     var workSlot: WorkSlot! {
         didSet {
             beginDate = workSlot.begin
             endDate = workSlot.end
         }
     }
-    
+
     @IBOutlet fileprivate weak var begin: UILabel!
     @IBOutlet fileprivate weak var end: UILabel!
-    
+
     fileprivate var beginDate: Date! {
         didSet {
             begin.text = formatter.string(from: beginDate)
@@ -35,14 +35,10 @@ class CustomTableViewCell: UITableViewCell {
         }
     }
     fileprivate let formatter = DateFormatter()
-    
-    
 
     // MARK: Lifecycle
-    
+
     func setup() {
         formatter.dateFormat = "HH:mm"
     }
-
-    
 }
