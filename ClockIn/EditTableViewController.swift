@@ -17,18 +17,35 @@ class EditTableViewController: UITableViewController {
     @IBOutlet weak var endDetailLabel: UILabel!
     @IBOutlet weak var endDatePicker: UIDatePicker!
 
-    @IBAction func datePickerBeginValue(_ sender: UIDatePicker) {
-        datePickerBeginChanged()
+    var initializationHandler: ((UIDatePicker, UIDatePicker) -> Void)!
+    var completionHandler: ((Date, Date) -> Void)!
+
+    // MARK: - View Lifecycle
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        initializationHandler(beginDatePicker, endDatePicker)
+
+        datePickerBeginValue(self)
+        datePickerEndValue(self)
     }
 
-    @IBAction func datePickerEndValue(_ sender: UIDatePicker) {
-        datePickerEndChanged()
+    // MARK: User Interaction
+
+    @IBAction func datePickerBeginValue(_ sender: AnyObject) {
+        beginDetailLabel.text = localizedStringFromDate(beginDatePicker.date)
+    }
+
+    @IBAction func datePickerEndValue(_ sender: AnyObject) {
+        endDetailLabel.text = localizedStringFromDate(endDatePicker.date)
     }
 
     @IBAction func submitChangesAction(_ sender: AnyObject) {
 
+        // Begin Time > End Time
         if beginDatePicker.date > endDatePicker.date {
-            Popup.show(self, title: "Ooops 😞", message: "Your begin is set after the end !\nDo you want to swap them ?", okTitle: "YES !", cancelTitle: "Cancel") { (Void) in
+            Popup.showDatesReversed(self) {
                 let tmpSwap = self.beginDatePicker.date
                 self.beginDatePicker.date = self.endDatePicker.date
                 self.endDatePicker.date = tmpSwap
@@ -38,7 +55,7 @@ class EditTableViewController: UITableViewController {
 
         // Begin Day != End Day
         if !beginDatePicker.date.compareWithoutTime(endDatePicker.date) {
-            Popup.show(self, title: "Wow 😮", message: "For real, you cannot work more than 24h in a row...")
+            Popup.showWorkMoreThan24h(self)
             return
         }
 
@@ -46,25 +63,7 @@ class EditTableViewController: UITableViewController {
         _ = navigationController?.popViewController(animated: true)
     }
 
-    var initializationHandler: ((UIDatePicker, UIDatePicker) -> Void)!
-    var completionHandler: ((Date, Date) -> Void)!
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        initializationHandler(beginDatePicker, endDatePicker)
-
-        datePickerBeginChanged()
-        datePickerEndChanged()
-    }
-
-    func datePickerBeginChanged() {
-        beginDetailLabel.text = localizedStringFromDate(beginDatePicker.date)
-    }
-
-    func datePickerEndChanged() {
-        endDetailLabel.text = localizedStringFromDate(endDatePicker.date)
-    }
+    // MARK: Additional Helpers
 
     func localizedStringFromDate(_ date: Date) -> String {
         return DateFormatter.localizedString(from: date, dateStyle: DateFormatter.Style.short, timeStyle: DateFormatter.Style.short)

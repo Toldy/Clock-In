@@ -36,7 +36,13 @@ class HomeTableViewController: UIViewController {
     private let managedObjectContext = (UIApplication.shared.delegate as! AppDelegate).managedObjectContext
     fileprivate var workSlotItems = WorkSlotItems()
 
-    // MARK: - Life-cycle
+    // MARK: - Lifecycle
+
+    func setupUI() {
+        headerView.isUserInteractionEnabled = true
+    }
+
+    // MARK: - View Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -83,10 +89,6 @@ class HomeTableViewController: UIViewController {
     override func setEditing(_ editing: Bool, animated: Bool) {
         super.setEditing(editing, animated: animated)
         tableView.setEditing(editing, animated: animated)
-    }
-
-    func setupUI() {
-        headerView.isUserInteractionEnabled = true
     }
 
     // MARK: - UI Update

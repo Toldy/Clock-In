@@ -12,12 +12,18 @@ import UIKit
 
 class Popup {
 
-    static func show(_ viewController: UIViewController, title: String, message: String?) {
-        show(viewController, title: title, message: message, okTitle: "Ok")
+    // MARK: - Custom popup here
+
+    static func showDatesReversed(_ viewController: UIViewController, okAction: ((Void) -> Void)?) {
+        show(viewController, title: "Ooops 😞", message: "Your begin is set after the end !\nDo you want to swap them ?", okTitle: "YES !", cancelTitle: "Cancel", okHandler: okAction, cancelHandler: nil)
     }
 
-    static func show(_ viewController: UIViewController, title: String, message: String, okTitle: String, cancelTitle: String, okAction: ((Void) -> Void)?) {
-        show(viewController, title: title, message: message, okTitle: okTitle, cancelTitle: cancelTitle, okHandler: okAction, cancelHandler: nil)
+    static func showWorkMoreThan24h(_ viewController: UIViewController) {
+        show(viewController, title: "Wow 😮", message: "For real, you cannot work more than 24h in a row...")
+    }
+
+    static func show(_ viewController: UIViewController, title: String, message: String?) {
+        show(viewController, title: title, message: message, okTitle: "Ok")
     }
 
     // MARK: - Only change the code here if change the library
