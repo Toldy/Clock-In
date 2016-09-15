@@ -17,14 +17,14 @@ class EditTableViewController: UITableViewController {
     @IBOutlet weak var endDetailLabel: UILabel!
     @IBOutlet weak var endDatePicker: UIDatePicker!
 
-    @IBAction func datePickerBeginValue(sender: UIDatePicker) {
+    @IBAction func datePickerBeginValue(_ sender: UIDatePicker) {
         datePickerBeginChanged()
     }
-    @IBAction func datePickerEndValue(sender: UIDatePicker) {
+    @IBAction func datePickerEndValue(_ sender: UIDatePicker) {
         datePickerEndChanged()
     }
     
-    @IBAction func submitChangesAction(sender: AnyObject) {
+    @IBAction func submitChangesAction(_ sender: AnyObject) {
         
         if beginDatePicker.date > endDatePicker.date {
             Popup.show(self, title: "Ooops 😞", message: "Your begin is set after the end !\nDo you want to swap them ?", okTitle: "YES !", cancelTitle: "Cancel") { (Void) in
@@ -42,12 +42,12 @@ class EditTableViewController: UITableViewController {
         }
         
         completionHandler(beginDatePicker.date, endDatePicker.date)
-        navigationController?.popViewControllerAnimated(true)
+        _ = navigationController?.popViewController(animated: true)
         
     }
     
     var initializationHandler: ((UIDatePicker, UIDatePicker)->Void)!
-    var completionHandler: ((NSDate, NSDate)->Void)!
+    var completionHandler: ((Date, Date)->Void)!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -66,8 +66,8 @@ class EditTableViewController: UITableViewController {
         endDetailLabel.text = localizedStringFromDate(endDatePicker.date)
     }
     
-    func localizedStringFromDate(date: NSDate) -> String {
-        return NSDateFormatter.localizedStringFromDate(date, dateStyle: NSDateFormatterStyle.ShortStyle, timeStyle: NSDateFormatterStyle.ShortStyle)
+    func localizedStringFromDate(_ date: Date) -> String {
+        return DateFormatter.localizedString(from: date, dateStyle: DateFormatter.Style.short, timeStyle: DateFormatter.Style.short)
     }
     
 }

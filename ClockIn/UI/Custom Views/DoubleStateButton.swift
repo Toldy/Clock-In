@@ -32,11 +32,11 @@ class DoubleStateButton: MultipleStatesButton {
 
 extension DoubleStateButton: MultipleStatesButtonDelegate {
 
-    func multipleStatesButton(button: MultipleStatesButton, titleForState state: Int) -> String {
+    func multipleStatesButton(_ button: MultipleStatesButton, titleForState state: Int) -> String {
         return titles[state]
     }
     
-    func numberOfStatesInButton(button: MultipleStatesButton) -> Int {
+    func numberOfStatesInButton(_ button: MultipleStatesButton) -> Int {
         return titles.count
     }
     
@@ -47,40 +47,40 @@ extension DoubleStateButton: MultipleStatesButtonDelegate {
 
 extension DoubleStateButton {
     
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        super.touchesBegan(touches, withEvent: event)
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
         
-        UIView.animateWithDuration(0.1, animations: { () -> Void in
-            self.transform = CGAffineTransformMakeScale(0.8, 0.8)
+        UIView.animate(withDuration: 0.1, animations: { () -> Void in
+            self.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
         })
         
     }
     
-    override func touchesCancelled(touches: Set<UITouch>?, withEvent event: UIEvent?) {
-        super.touchesCancelled(touches, withEvent: event)
+    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesCancelled(touches, with: event)
         
-        UIView.animateWithDuration(0.5,
+        UIView.animate(withDuration: 0.5,
                                    delay: 0,
                                    usingSpringWithDamping: 0.2,
                                    initialSpringVelocity: 6.0,
-                                   options: UIViewAnimationOptions.AllowUserInteraction,
+                                   options: UIViewAnimationOptions.allowUserInteraction,
                                    animations: { () -> Void in
-                                    self.transform = CGAffineTransformIdentity
+                                    self.transform = CGAffineTransform.identity
             }, completion: nil)
         
     }
     
     
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        super.touchesEnded(touches, withEvent: event)
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesEnded(touches, with: event)
         
-        UIView.animateWithDuration(0.5,
+        UIView.animate(withDuration: 0.5,
                                    delay: 0,
                                    usingSpringWithDamping: 0.2,
                                    initialSpringVelocity: 6.0,
-                                   options: UIViewAnimationOptions.AllowUserInteraction,
+                                   options: UIViewAnimationOptions.allowUserInteraction,
                                    animations: { () -> Void in
-                                    self.transform = CGAffineTransformIdentity
+                                    self.transform = CGAffineTransform.identity
             }, completion: nil)
     }
 }

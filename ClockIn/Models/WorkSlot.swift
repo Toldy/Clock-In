@@ -15,12 +15,12 @@ class WorkSlot: NSManagedObject { }
 
 class WorkSlotItems {
     
-    var sections: [NSDate] = []
+    var sections: [Date] = []
     var items: [[WorkSlot]] = []
     
     var totalWorked = 0
     
-    func addSection(section: NSDate, items:[WorkSlot]){
+    func addSection(_ section: Date, items:[WorkSlot]){
         sections = sections + [section]
         self.items = self.items + [items]
         
@@ -31,7 +31,7 @@ class WorkSlotItems {
         }
     }
     
-    func totalTimeForSection(index: Int) -> Int {
+    func totalTimeForSection(_ index: Int) -> Int {
         let items = self.items[index]
         var total = 0
         

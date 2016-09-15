@@ -12,6 +12,6 @@ extension UIView
 {
     func copyView() -> AnyObject
     {
-        return NSKeyedUnarchiver.unarchiveObjectWithData(NSKeyedArchiver.archivedDataWithRootObject(self))!
+        return NSKeyedUnarchiver.unarchiveObject(with: NSKeyedArchiver.archivedData(withRootObject: self))! as AnyObject
     }
 }

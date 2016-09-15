@@ -10,16 +10,16 @@ import UIKit
 
 @objc protocol MultipleStatesButtonDelegate {
     
-    optional func multipleStatesButton(button: MultipleStatesButton, titleForState state: Int) -> String
-    optional func multipleStatesButton(button: MultipleStatesButton, attributedTitleForState state: Int) -> NSAttributedString
-    func numberOfStatesInButton(button: MultipleStatesButton) -> Int
+    @objc optional func multipleStatesButton(_ button: MultipleStatesButton, titleForState state: Int) -> String
+    @objc optional func multipleStatesButton(_ button: MultipleStatesButton, attributedTitleForState state: Int) -> NSAttributedString
+    func numberOfStatesInButton(_ button: MultipleStatesButton) -> Int
 }
 
 
 class MultipleStatesButton: UIButton {
     
-    private var stateTitles: [String] = ["State 0", "State 1", "State 2", "State 3"]
-    private var currentState: Int = 0 {
+    fileprivate var stateTitles: [String] = ["State 0", "State 1", "State 2", "State 3"]
+    fileprivate var currentState: Int = 0 {
         didSet {
             if let delegate = delegate {
                 currentState = currentState % delegate.numberOfStatesInButton(self)
@@ -52,23 +52,23 @@ class MultipleStatesButton: UIButton {
     func reloadData() {
         
         if let attributedStateTitle = delegate?.multipleStatesButton?(self, attributedTitleForState: currentState) {
-            setAttributedTitle(attributedStateTitle, forState: UIControlState.Normal)
+            setAttributedTitle(attributedStateTitle, for: UIControlState())
             return
         }
         
         if let stateTitle = delegate?.multipleStatesButton?(self, titleForState: currentState) {
-            setTitle(stateTitle, forState: UIControlState.Normal)
+            setTitle(stateTitle, for: UIControlState())
             return
         }
         
-        setTitle(stateTitles[currentState], forState: UIControlState.Normal)
+        setTitle(stateTitles[currentState], for: UIControlState())
     }
     
 
     // MARK: Touches Events
     
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        super.touchesEnded(touches, withEvent: event)
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesEnded(touches, with: event)
         
         currentState += 1
         reloadData()

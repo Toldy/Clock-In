@@ -14,7 +14,7 @@ import CoreData
 
 extension WorkSlot {
 
-    @NSManaged var begin: NSDate!
-    @NSManaged var end: NSDate?
+    @NSManaged var begin: Date!
+    @NSManaged var end: Date?
 
 }

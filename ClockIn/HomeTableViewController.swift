@@ -25,18 +25,18 @@ class HomeTableViewController: UIViewController {
     @IBOutlet weak var sectionHeaderDateLabel: UILabel!
     @IBOutlet weak var sectionHeaderTimeLabel: UILabel!
     
-    @IBAction func actionCheck(sender: AnyObject) {
-        if let workSlot = workSlotItems.items[safe: 0]?.first where workSlot.end == nil {
-            workSlot.end = NSDate()
+    @IBAction func actionCheck(_ sender: AnyObject) {
+        if let workSlot = workSlotItems.items[safe: 0]?.first , workSlot.end == nil {
+            workSlot.end = Date()
             coreDataUpdate(workSlot)
         } else {
-            coreDataCreate(NSDate())
+            coreDataCreate(Date())
         }
         
     }
     
-    private let managedObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
-    private var workSlotItems = WorkSlotItems()
+    private let managedObjectContext = (UIApplication.shared.delegate as! AppDelegate).managedObjectContext
+    fileprivate var workSlotItems = WorkSlotItems()
     
     
     // MARK: - Life-cycle
@@ -52,70 +52,70 @@ class HomeTableViewController: UIViewController {
         coreDataRead()
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         if let indexPath = tableView.indexPathForSelectedRow {
-            tableView.deselectRowAtIndexPath(indexPath, animated: animated)
+            tableView.deselectRow(at: indexPath, animated: animated)
         }
     }
 
-    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
         return (sender as? CustomTableViewCell)?.workSlot.end != nil
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
-        if let vc = segue.destinationViewController as? EditTableViewController,
+    override func prepare(for segue: UIStoryboardSegue, sender: Any!) {
+        if let vc = segue.destination as? EditTableViewController,
             let cell = sender as? CustomTableViewCell {
             
             vc.initializationHandler = { (beginDatePicker, endDatePicker)  in
-                beginDatePicker.date = cell.workSlot.begin
-                endDatePicker.date = cell.workSlot.end!
+                beginDatePicker.date = cell.workSlot.begin as Date
+                endDatePicker.date = cell.workSlot.end! as Date
             }
             
             vc.completionHandler = { (beginDate, endDate)  in
                 let workSlot = cell.workSlot
-                workSlot.begin = beginDate
-                workSlot.end = endDate
+                workSlot?.begin = beginDate
+                workSlot?.end = endDate
                 
-                self.coreDataUpdate(workSlot)
+                self.coreDataUpdate(workSlot!)
             }
         }
     }
     
-    override func setEditing(editing: Bool, animated: Bool) {
+    override func setEditing(_ editing: Bool, animated: Bool) {
         super.setEditing(editing, animated: animated)
         tableView.setEditing(editing, animated: animated)
     }
     
     func setupUI() {
-        headerView.userInteractionEnabled = true
+        headerView.isUserInteractionEnabled = true
     }
     
     // MARK: - UI Update
     
-    private func updateUI() {
+    fileprivate func updateUI() {
         updateHeaderBar()
     }
     
-    private func updateHeaderBar() {
+    fileprivate func updateHeaderBar() {
         headerTotalTimeButton.minutesWorked = workSlotItems.totalWorked
         updateDaysWorkedLabel()
     }
         
-    private func updateDaysWorkedLabel() {
+    fileprivate func updateDaysWorkedLabel() {
         let daysWorked = workSlotItems.sections.count
         
         let style = NSMutableParagraphStyle()
-        style.alignment = NSTextAlignment.Left
-        style.lineBreakMode = NSLineBreakMode.ByWordWrapping
+        style.alignment = NSTextAlignment.left
+        style.lineBreakMode = NSLineBreakMode.byWordWrapping
         
-        let font = UIFont.boldSystemFontOfSize(15)
+        let font = UIFont.boldSystemFont(ofSize: 15)
         
         let dict = [NSForegroundColorAttributeName:🖌.materialRedColor, NSFontAttributeName: font, NSParagraphStyleAttributeName: style]
         
         let attributedString = NSMutableAttributedString()
-        attributedString.appendAttributedString(NSAttributedString(string: "\(daysWorked)", attributes: dict))
+        attributedString.append(NSAttributedString(string: "\(daysWorked)", attributes: dict))
         
         headerTotalDaysLabel.attributedText = attributedString
         
@@ -124,17 +124,15 @@ class HomeTableViewController: UIViewController {
     
     // MARK: - Core Data
     
-    private func coreDataRead() {
-        let fetchRequest = NSFetchRequest(entityName: "WorkSlot")
+    fileprivate func coreDataRead() {
+        let fetchRequest = NSFetchRequest<WorkSlot>(entityName: "WorkSlot")
         do {
-            
-            if var results = try self.managedObjectContext.executeFetchRequest(fetchRequest).sort({ $0.begin > $1.begin }) as? [WorkSlot] {
-                workSlotItems = WorkSlotItems()
-                while let first = results.first {
-                    let items = results.filter { $0.begin.compareWithoutTime(first.begin) }
-                    workSlotItems.addSection(first.begin, items: items)
-                    results.removeObjectsInArray(items)
-                }
+            var results = try self.managedObjectContext.fetch(fetchRequest).sorted(by: { $0.begin > $1.begin })
+            workSlotItems = WorkSlotItems()
+            while let first = results.first {
+                let items = results.filter { $0.begin.compareWithoutTime(first.begin) }
+                workSlotItems.addSection(first.begin, items: items)
+                results.removeObjectsInArray(items)
             }
             updateUI()
             tableView.reloadData()
@@ -142,7 +140,7 @@ class HomeTableViewController: UIViewController {
         } catch { print("LEL. Did you really got an error ?!") }
     }
     
-    private func coreDataUpdate(workSlot: WorkSlot) {
+    fileprivate func coreDataUpdate(_ workSlot: WorkSlot) {
         do {
             
             try workSlot.managedObjectContext?.save()
@@ -151,8 +149,8 @@ class HomeTableViewController: UIViewController {
         } catch { print("LEL. Did you really got an error ?!") }
     }
     
-    private func coreDataDelete(workSlot: WorkSlot) {
-        self.managedObjectContext.deleteObject(workSlot)
+    fileprivate func coreDataDelete(_ workSlot: WorkSlot) {
+        self.managedObjectContext.delete(workSlot)
         do {
             
             try self.managedObjectContext.save()
@@ -161,8 +159,8 @@ class HomeTableViewController: UIViewController {
         } catch { print("LEL. Did you really got an error ?!") }
     }
     
-    private func coreDataCreate(begin: NSDate, end: NSDate? = nil) {
-        let newSlot = NSEntityDescription.insertNewObjectForEntityForName("WorkSlot", inManagedObjectContext: self.managedObjectContext) as! WorkSlot
+    fileprivate func coreDataCreate(_ begin: Date, end: Date? = nil) {
+        let newSlot = NSEntityDescription.insertNewObject(forEntityName: "WorkSlot", into: self.managedObjectContext) as! WorkSlot
         newSlot.begin = begin
         newSlot.end = end
         
@@ -176,18 +174,18 @@ class HomeTableViewController: UIViewController {
 
 extension HomeTableViewController : UITableViewDataSource {
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return workSlotItems.items[section].count
     }
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return workSlotItems.sections.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! CustomTableViewCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! CustomTableViewCell
         
-        let data = workSlotItems.items[indexPath.section][indexPath.row]
+        let data = workSlotItems.items[(indexPath as NSIndexPath).section][(indexPath as NSIndexPath).row]
 
         cell.setup()
         cell.workSlot = data
@@ -199,25 +197,24 @@ extension HomeTableViewController : UITableViewDataSource {
 
 extension HomeTableViewController : UITableViewDelegate {
 
-    
-    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == .Delete {
-            coreDataDelete(workSlotItems.items[indexPath.section][indexPath.row])
+    @objc(tableView:commitEditingStyle:forRowAtIndexPath:) func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            coreDataDelete(workSlotItems.items[(indexPath as NSIndexPath).section][(indexPath as NSIndexPath).row])
         }
     }
     
-    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 42
     }
     
-    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
 
         let dataForTitle = workSlotItems.sections[section]
         
-        let formatter = NSDateFormatter()
-        formatter.dateStyle = .LongStyle
+        let formatter = DateFormatter()
+        formatter.dateStyle = .long
         
-        sectionHeaderDateLabel.text = formatter.stringFromDate(dataForTitle).uppercaseString
+        sectionHeaderDateLabel.text = formatter.string(from: dataForTitle).uppercased()
         let time = workSlotItems.totalTimeForSection(section)
         sectionHeaderTimeLabel.text = "\(time / 60) hrs \(time % 60) min"
         

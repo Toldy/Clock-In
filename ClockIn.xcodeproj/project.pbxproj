@@ -20,7 +20,7 @@
 		664DA5011D7F7175001D8D81 /* EditTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664DA5001D7F7175001D8D81 /* EditTableViewController.swift */; };
 		664DA50B1D814B93001D8D81 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664DA50A1D814B93001D8D81 /* UIView+Extension.swift */; };
 		664DA50D1D814BB1001D8D81 /* Array+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664DA50C1D814BB1001D8D81 /* Array+Extension.swift */; };
-		664DA5111D814C8B001D8D81 /* NSDate+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664DA5101D814C8B001D8D81 /* NSDate+Extension.swift */; };
+		664DA5111D814C8B001D8D81 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664DA5101D814C8B001D8D81 /* Date+Extension.swift */; };
 		664DA5141D81657E001D8D81 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664DA5131D81657E001D8D81 /* UIColor+Extension.swift */; };
 		665C3E1A1D8481F40052CC32 /* Popup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 665C3E191D8481F40052CC32 /* Popup.swift */; };
 		665C3E1C1D8490930052CC32 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 665C3E1B1D8490930052CC32 /* Colors.swift */; };
@@ -57,7 +57,7 @@
 		664DA5001D7F7175001D8D81 /* EditTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditTableViewController.swift; sourceTree = "<group>"; };
 		664DA50A1D814B93001D8D81 /* UIView+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIView+Extension.swift"; path = "Helpers/UIView+Extension.swift"; sourceTree = "<group>"; };
 		664DA50C1D814BB1001D8D81 /* Array+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Array+Extension.swift"; path = "Helpers/Array+Extension.swift"; sourceTree = "<group>"; };
-		664DA5101D814C8B001D8D81 /* NSDate+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSDate+Extension.swift"; path = "Helpers/NSDate+Extension.swift"; sourceTree = "<group>"; };
+		664DA5101D814C8B001D8D81 /* Date+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Date+Extension.swift"; path = "Helpers/Date+Extension.swift"; sourceTree = "<group>"; };
 		664DA5131D81657E001D8D81 /* UIColor+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIColor+Extension.swift"; path = "Helpers/UIColor+Extension.swift"; sourceTree = "<group>"; };
 		665C3E191D8481F40052CC32 /* Popup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Popup.swift; path = Helpers/Popup.swift; sourceTree = "<group>"; };
 		665C3E1B1D8490930052CC32 /* Colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Colors.swift; path = Helpers/Colors.swift; sourceTree = "<group>"; };
@@ -136,7 +136,7 @@
 		664DA50E1D814BCA001D8D81 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				664DA5101D814C8B001D8D81 /* NSDate+Extension.swift */,
+				664DA5101D814C8B001D8D81 /* Date+Extension.swift */,
 				664DA50A1D814B93001D8D81 /* UIView+Extension.swift */,
 				664DA50C1D814BB1001D8D81 /* Array+Extension.swift */,
 				664DA5131D81657E001D8D81 /* UIColor+Extension.swift */,
@@ -223,15 +223,17 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 0730;
+				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = "Julien Colin";
 				TargetAttributes = {
 					663A47E01D7E087B00393718 = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = EY4N4MT77D;
+						LastSwiftMigration = 0800;
 					};
 					663A47F71D7E087B00393718 = {
 						CreatedOnToolsVersion = 7.3.1;
+						LastSwiftMigration = 0800;
 						TestTargetID = 663A47E01D7E087B00393718;
 					};
 				};
@@ -288,7 +290,7 @@
 				66FFBBB51D82CB1B00E351A6 /* MultipleStatesButton.swift in Sources */,
 				664DA5141D81657E001D8D81 /* UIColor+Extension.swift in Sources */,
 				663A48181D7E25E800393718 /* WorkSlot+CoreDataProperties.swift in Sources */,
-				664DA5111D814C8B001D8D81 /* NSDate+Extension.swift in Sources */,
+				664DA5111D814C8B001D8D81 /* Date+Extension.swift in Sources */,
 				665C3E1C1D8490930052CC32 /* Colors.swift in Sources */,
 				664DA50B1D814B93001D8D81 /* UIView+Extension.swift in Sources */,
 				663A48191D7E25E800393718 /* WorkSlot.swift in Sources */,
@@ -351,8 +353,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -396,8 +400,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -416,6 +422,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -431,6 +438,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = toldino.ClockIn;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -445,6 +453,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = toldino.ClockIn;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
@@ -455,6 +464,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = toldino.ClockInUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = ClockIn;
 			};
 			name = Debug;
@@ -466,6 +476,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = toldino.ClockInUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = ClockIn;
 			};
 			name = Release;

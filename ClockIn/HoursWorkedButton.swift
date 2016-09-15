@@ -35,15 +35,15 @@ class HoursWorkedButton: MultipleStatesButton {
 
 extension HoursWorkedButton: MultipleStatesButtonDelegate {
     
-    func multipleStatesButton(button: MultipleStatesButton, attributedTitleForState state: Int) -> NSAttributedString {
+    func multipleStatesButton(_ button: MultipleStatesButton, attributedTitleForState state: Int) -> NSAttributedString {
 
         
         let style = NSMutableParagraphStyle()
-        style.alignment = NSTextAlignment.Center
-        style.lineBreakMode = NSLineBreakMode.ByWordWrapping
+        style.alignment = NSTextAlignment.center
+        style.lineBreakMode = NSLineBreakMode.byWordWrapping
         
-        let font1 = UIFont.systemFontOfSize(15)
-        let font2 = UIFont.boldSystemFontOfSize(15)
+        let font1 = UIFont.systemFont(ofSize: 15)
+        let font2 = UIFont.boldSystemFont(ofSize: 15)
         
         let dict1 = [NSForegroundColorAttributeName:🖌.lightGreyColor, NSFontAttributeName: font1, NSParagraphStyleAttributeName: style]
         let dict2 = [NSForegroundColorAttributeName:🖌.materialRedColor, NSFontAttributeName: font2, NSParagraphStyleAttributeName: style]
@@ -56,27 +56,27 @@ extension HoursWorkedButton: MultipleStatesButtonDelegate {
             let minutesWorked = self.minutesWorked % 60
             
             if daysWorked != 0 {
-                attributedString.appendAttributedString(NSAttributedString(string: "\(daysWorked)", attributes: dict2))
-                attributedString.appendAttributedString(NSAttributedString(string: "j ", attributes: dict1))
+                attributedString.append(NSAttributedString(string: "\(daysWorked)", attributes: dict2))
+                attributedString.append(NSAttributedString(string: "j ", attributes: dict1))
             }
-            attributedString.appendAttributedString(NSAttributedString(string: String(format: "%02d", hoursWorked), attributes: dict2))
-            attributedString.appendAttributedString(NSAttributedString(string: "h ", attributes: dict1))
-            attributedString.appendAttributedString(NSAttributedString(string: String(format: "%02d", minutesWorked), attributes: dict2))
-            attributedString.appendAttributedString(NSAttributedString(string: "m", attributes: dict1))
+            attributedString.append(NSAttributedString(string: String(format: "%02d", hoursWorked), attributes: dict2))
+            attributedString.append(NSAttributedString(string: "h ", attributes: dict1))
+            attributedString.append(NSAttributedString(string: String(format: "%02d", minutesWorked), attributes: dict2))
+            attributedString.append(NSAttributedString(string: "m", attributes: dict1))
         } else {
             let hoursWorked = self.minutesWorked / 60
             let minutesWorked = self.minutesWorked % 60
 
-            attributedString.appendAttributedString(NSAttributedString(string: String(format: "%02d", hoursWorked), attributes: dict2))
-            attributedString.appendAttributedString(NSAttributedString(string: "h ", attributes: dict1))
-            attributedString.appendAttributedString(NSAttributedString(string: String(format: "%02d", minutesWorked), attributes: dict2))
-            attributedString.appendAttributedString(NSAttributedString(string: "m", attributes: dict1))
+            attributedString.append(NSAttributedString(string: String(format: "%02d", hoursWorked), attributes: dict2))
+            attributedString.append(NSAttributedString(string: "h ", attributes: dict1))
+            attributedString.append(NSAttributedString(string: String(format: "%02d", minutesWorked), attributes: dict2))
+            attributedString.append(NSAttributedString(string: "m", attributes: dict1))
 
         }
         
         return attributedString
     }
     
-    func numberOfStatesInButton(button: MultipleStatesButton) -> Int { return 2 }
+    func numberOfStatesInButton(_ button: MultipleStatesButton) -> Int { return 2 }
     
 }
