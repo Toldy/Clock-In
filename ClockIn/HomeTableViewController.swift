@@ -184,15 +184,15 @@ extension HomeTableViewController: UITableViewDataSource {
 
         return cell
     }
-}
-
-extension HomeTableViewController: UITableViewDelegate {
-
-    @objc(tableView:commitEditingStyle:forRowAtIndexPath:) func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             coreDataDelete(workSlotItems.items[(indexPath as NSIndexPath).section][(indexPath as NSIndexPath).row])
         }
     }
+}
+
+extension HomeTableViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 42
