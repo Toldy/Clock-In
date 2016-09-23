@@ -44,26 +44,26 @@
 		663A47E41D7E087B00393718 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		663A47E91D7E087B00393718 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		663A47EC1D7E087B00393718 /* ClockIn.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ClockIn.xcdatamodel; sourceTree = "<group>"; };
-		663A47EE1D7E087B00393718 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		663A47EE1D7E087B00393718 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = Resources/Assets.xcassets; sourceTree = "<group>"; };
 		663A47F11D7E087B00393718 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		663A47F31D7E087B00393718 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		663A47F31D7E087B00393718 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = "Supporting File/Info.plist"; sourceTree = "<group>"; };
 		663A47F81D7E087B00393718 /* ClockInUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ClockInUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		663A47FC1D7E087B00393718 /* ClockInUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClockInUITests.swift; sourceTree = "<group>"; };
 		663A47FE1D7E087B00393718 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		663A480F1D7E14E700393718 /* HomeTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeTableViewController.swift; sourceTree = "<group>"; };
-		663A48111D7E15A900393718 /* CustomTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
+		663A480F1D7E14E700393718 /* HomeTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HomeTableViewController.swift; path = Controllers/HomeTableViewController.swift; sourceTree = "<group>"; };
+		663A48111D7E15A900393718 /* CustomTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CustomTableViewCell.swift; path = "Views/Custom Views/CustomTableViewCell.swift"; sourceTree = "<group>"; };
 		663A48161D7E25E800393718 /* WorkSlot+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "WorkSlot+CoreDataProperties.swift"; path = "Models/WorkSlot+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		663A48171D7E25E800393718 /* WorkSlot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WorkSlot.swift; path = Models/WorkSlot.swift; sourceTree = "<group>"; };
-		664DA5001D7F7175001D8D81 /* EditTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditTableViewController.swift; sourceTree = "<group>"; };
+		664DA5001D7F7175001D8D81 /* EditTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EditTableViewController.swift; path = Controllers/EditTableViewController.swift; sourceTree = "<group>"; };
 		664DA50A1D814B93001D8D81 /* UIView+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIView+Extension.swift"; path = "Helpers/UIView+Extension.swift"; sourceTree = "<group>"; };
 		664DA50C1D814BB1001D8D81 /* Array+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Array+Extension.swift"; path = "Helpers/Array+Extension.swift"; sourceTree = "<group>"; };
 		664DA5101D814C8B001D8D81 /* Date+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Date+Extension.swift"; path = "Helpers/Date+Extension.swift"; sourceTree = "<group>"; };
 		664DA5131D81657E001D8D81 /* UIColor+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIColor+Extension.swift"; path = "Helpers/UIColor+Extension.swift"; sourceTree = "<group>"; };
 		665C3E191D8481F40052CC32 /* Popup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Popup.swift; path = Helpers/Popup.swift; sourceTree = "<group>"; };
 		665C3E1B1D8490930052CC32 /* Colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Colors.swift; path = Helpers/Colors.swift; sourceTree = "<group>"; };
-		66FFBBB01D82C26400E351A6 /* DoubleStateButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DoubleStateButton.swift; path = "UI/Custom Views/DoubleStateButton.swift"; sourceTree = "<group>"; };
-		66FFBBB41D82CB1B00E351A6 /* MultipleStatesButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultipleStatesButton.swift; sourceTree = "<group>"; };
-		66FFBBB61D82DCFD00E351A6 /* HoursWorkedButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HoursWorkedButton.swift; sourceTree = "<group>"; };
+		66FFBBB01D82C26400E351A6 /* DoubleStateButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DoubleStateButton.swift; path = "Views/Custom Views/DoubleStateButton.swift"; sourceTree = "<group>"; };
+		66FFBBB41D82CB1B00E351A6 /* MultipleStatesButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MultipleStatesButton.swift; path = "Views/Custom Views/MultipleStatesButton.swift"; sourceTree = "<group>"; };
+		66FFBBB61D82DCFD00E351A6 /* HoursWorkedButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HoursWorkedButton.swift; path = "Views/Custom Views/HoursWorkedButton.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,12 +105,14 @@
 		663A47E31D7E087B00393718 /* ClockIn */ = {
 			isa = PBXGroup;
 			children = (
-				664DA50E1D814BCA001D8D81 /* Helpers */,
+				663A47E41D7E087B00393718 /* AppDelegate.swift */,
 				663A48151D7E257300393718 /* Models */,
-				664DA5121D814CA6001D8D81 /* UI */,
-				663A47EE1D7E087B00393718 /* Assets.xcassets */,
+				664DA5121D814CA6001D8D81 /* Views */,
+				669A7A0B1D94717D0059EA99 /* Controllers */,
+				669A7A0C1D9471FD0059EA99 /* Managers */,
+				664DA50E1D814BCA001D8D81 /* Helpers */,
+				669A7A111D955E050059EA99 /* Resources */,
 				664DA50F1D814C4F001D8D81 /* Supporting File */,
-				663A47EB1D7E087B00393718 /* ClockIn.xcdatamodeld */,
 			);
 			path = ClockIn;
 			sourceTree = "<group>";
@@ -127,6 +129,7 @@
 		663A48151D7E257300393718 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				663A47EB1D7E087B00393718 /* ClockIn.xcdatamodeld */,
 				663A48161D7E25E800393718 /* WorkSlot+CoreDataProperties.swift */,
 				663A48171D7E25E800393718 /* WorkSlot.swift */,
 			);
@@ -140,8 +143,6 @@
 				664DA50A1D814B93001D8D81 /* UIView+Extension.swift */,
 				664DA50C1D814BB1001D8D81 /* Array+Extension.swift */,
 				664DA5131D81657E001D8D81 /* UIColor+Extension.swift */,
-				665C3E191D8481F40052CC32 /* Popup.swift */,
-				665C3E1B1D8490930052CC32 /* Colors.swift */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -154,23 +155,54 @@
 			name = "Supporting File";
 			sourceTree = "<group>";
 		};
-		664DA5121D814CA6001D8D81 /* UI */ = {
+		664DA5121D814CA6001D8D81 /* Views */ = {
 			isa = PBXGroup;
 			children = (
 				66FFBBAF1D82C1DB00E351A6 /* Custom Views */,
-				663A47E41D7E087B00393718 /* AppDelegate.swift */,
-				663A47E81D7E087B00393718 /* Main.storyboard */,
-				663A48111D7E15A900393718 /* CustomTableViewCell.swift */,
-				663A480F1D7E14E700393718 /* HomeTableViewController.swift */,
+				669A7A101D955D8E0059EA99 /* Base.lproj */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		669A7A0B1D94717D0059EA99 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
 				664DA5001D7F7175001D8D81 /* EditTableViewController.swift */,
+				663A480F1D7E14E700393718 /* HomeTableViewController.swift */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		669A7A0C1D9471FD0059EA99 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				665C3E191D8481F40052CC32 /* Popup.swift */,
+				665C3E1B1D8490930052CC32 /* Colors.swift */,
+			);
+			name = Managers;
+			sourceTree = "<group>";
+		};
+		669A7A101D955D8E0059EA99 /* Base.lproj */ = {
+			isa = PBXGroup;
+			children = (
+				663A47E81D7E087B00393718 /* Main.storyboard */,
 				663A47F01D7E087B00393718 /* LaunchScreen.storyboard */,
 			);
-			name = UI;
+			name = Base.lproj;
+			sourceTree = "<group>";
+		};
+		669A7A111D955E050059EA99 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				663A47EE1D7E087B00393718 /* Assets.xcassets */,
+			);
+			name = Resources;
 			sourceTree = "<group>";
 		};
 		66FFBBAF1D82C1DB00E351A6 /* Custom Views */ = {
 			isa = PBXGroup;
 			children = (
+				663A48111D7E15A900393718 /* CustomTableViewCell.swift */,
 				66FFBBB01D82C26400E351A6 /* DoubleStateButton.swift */,
 				66FFBBB41D82CB1B00E351A6 /* MultipleStatesButton.swift */,
 				66FFBBB61D82DCFD00E351A6 /* HoursWorkedButton.swift */,
@@ -326,6 +358,7 @@
 				663A47E91D7E087B00393718 /* Base */,
 			);
 			name = Main.storyboard;
+			path = Views;
 			sourceTree = "<group>";
 		};
 		663A47F01D7E087B00393718 /* LaunchScreen.storyboard */ = {
@@ -334,6 +367,7 @@
 				663A47F11D7E087B00393718 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
