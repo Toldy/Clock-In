@@ -16,4 +16,5 @@ extension WorkSlot {
 
     @NSManaged var begin: Date!
     @NSManaged var end: Date?
+    @NSManaged var job: String!
 }

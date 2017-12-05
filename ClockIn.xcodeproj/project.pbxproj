@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		663A47E51D7E087B00393718 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663A47E41D7E087B00393718 /* AppDelegate.swift */; };
 		663A47EA1D7E087B00393718 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 663A47E81D7E087B00393718 /* Main.storyboard */; };
-		663A47ED1D7E087B00393718 /* ClockIn.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 663A47EB1D7E087B00393718 /* ClockIn.xcdatamodeld */; };
 		663A47EF1D7E087B00393718 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 663A47EE1D7E087B00393718 /* Assets.xcassets */; };
 		663A47F21D7E087B00393718 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 663A47F01D7E087B00393718 /* LaunchScreen.storyboard */; };
 		663A47FD1D7E087B00393718 /* ClockInUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663A47FC1D7E087B00393718 /* ClockInUITests.swift */; };
@@ -24,6 +23,7 @@
 		664DA5141D81657E001D8D81 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664DA5131D81657E001D8D81 /* UIColor+Extension.swift */; };
 		665C3E1A1D8481F40052CC32 /* Popup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 665C3E191D8481F40052CC32 /* Popup.swift */; };
 		665C3E1C1D8490930052CC32 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 665C3E1B1D8490930052CC32 /* Colors.swift */; };
+		669A7A141D9561ED0059EA99 /* ClockIn.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 669A7A121D9561ED0059EA99 /* ClockIn.xcdatamodeld */; };
 		66FFBBB11D82C26400E351A6 /* DoubleStateButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FFBBB01D82C26400E351A6 /* DoubleStateButton.swift */; };
 		66FFBBB51D82CB1B00E351A6 /* MultipleStatesButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FFBBB41D82CB1B00E351A6 /* MultipleStatesButton.swift */; };
 		66FFBBB71D82DCFD00E351A6 /* HoursWorkedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FFBBB61D82DCFD00E351A6 /* HoursWorkedButton.swift */; };
@@ -43,7 +43,6 @@
 		663A47E11D7E087B00393718 /* ClockIn.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClockIn.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		663A47E41D7E087B00393718 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		663A47E91D7E087B00393718 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		663A47EC1D7E087B00393718 /* ClockIn.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ClockIn.xcdatamodel; sourceTree = "<group>"; };
 		663A47EE1D7E087B00393718 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = Resources/Assets.xcassets; sourceTree = "<group>"; };
 		663A47F11D7E087B00393718 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		663A47F31D7E087B00393718 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = "Supporting File/Info.plist"; sourceTree = "<group>"; };
@@ -61,6 +60,7 @@
 		664DA5131D81657E001D8D81 /* UIColor+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIColor+Extension.swift"; path = "Helpers/UIColor+Extension.swift"; sourceTree = "<group>"; };
 		665C3E191D8481F40052CC32 /* Popup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Popup.swift; path = Helpers/Popup.swift; sourceTree = "<group>"; };
 		665C3E1B1D8490930052CC32 /* Colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Colors.swift; path = Helpers/Colors.swift; sourceTree = "<group>"; };
+		669A7A131D9561ED0059EA99 /* ClockIn.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ClockIn.xcdatamodel; sourceTree = "<group>"; };
 		66FFBBB01D82C26400E351A6 /* DoubleStateButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DoubleStateButton.swift; path = "Views/Custom Views/DoubleStateButton.swift"; sourceTree = "<group>"; };
 		66FFBBB41D82CB1B00E351A6 /* MultipleStatesButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MultipleStatesButton.swift; path = "Views/Custom Views/MultipleStatesButton.swift"; sourceTree = "<group>"; };
 		66FFBBB61D82DCFD00E351A6 /* HoursWorkedButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HoursWorkedButton.swift; path = "Views/Custom Views/HoursWorkedButton.swift"; sourceTree = "<group>"; };
@@ -129,7 +129,7 @@
 		663A48151D7E257300393718 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				663A47EB1D7E087B00393718 /* ClockIn.xcdatamodeld */,
+				669A7A121D9561ED0059EA99 /* ClockIn.xcdatamodeld */,
 				663A48161D7E25E800393718 /* WorkSlot+CoreDataProperties.swift */,
 				663A48171D7E25E800393718 /* WorkSlot.swift */,
 			);
@@ -260,11 +260,12 @@
 				TargetAttributes = {
 					663A47E01D7E087B00393718 = {
 						CreatedOnToolsVersion = 7.3.1;
-						DevelopmentTeam = EY4N4MT77D;
+						DevelopmentTeam = 3UFMT3Y37Z;
 						LastSwiftMigration = 0800;
 					};
 					663A47F71D7E087B00393718 = {
 						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = 3UFMT3Y37Z;
 						LastSwiftMigration = 0800;
 						TestTargetID = 663A47E01D7E087B00393718;
 					};
@@ -326,10 +327,10 @@
 				665C3E1C1D8490930052CC32 /* Colors.swift in Sources */,
 				664DA50B1D814B93001D8D81 /* UIView+Extension.swift in Sources */,
 				663A48191D7E25E800393718 /* WorkSlot.swift in Sources */,
-				663A47ED1D7E087B00393718 /* ClockIn.xcdatamodeld in Sources */,
 				665C3E1A1D8481F40052CC32 /* Popup.swift in Sources */,
 				664DA5011D7F7175001D8D81 /* EditTableViewController.swift in Sources */,
 				663A47E51D7E087B00393718 /* AppDelegate.swift in Sources */,
+				669A7A141D9561ED0059EA99 /* ClockIn.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -467,7 +468,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				INFOPLIST_FILE = ClockIn/Info.plist;
+				DEVELOPMENT_TEAM = 3UFMT3Y37Z;
+				INFOPLIST_FILE = "ClockIn/Supporting file/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = toldino.ClockIn;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -482,7 +484,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				INFOPLIST_FILE = ClockIn/Info.plist;
+				DEVELOPMENT_TEAM = 3UFMT3Y37Z;
+				INFOPLIST_FILE = "ClockIn/Supporting file/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = toldino.ClockIn;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -494,6 +497,7 @@
 		663A48051D7E087B00393718 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				DEVELOPMENT_TEAM = 3UFMT3Y37Z;
 				INFOPLIST_FILE = ClockInUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = toldino.ClockInUITests;
@@ -506,6 +510,7 @@
 		663A48061D7E087B00393718 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				DEVELOPMENT_TEAM = 3UFMT3Y37Z;
 				INFOPLIST_FILE = ClockInUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = toldino.ClockInUITests;
@@ -548,13 +553,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		663A47EB1D7E087B00393718 /* ClockIn.xcdatamodeld */ = {
+		669A7A121D9561ED0059EA99 /* ClockIn.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				663A47EC1D7E087B00393718 /* ClockIn.xcdatamodel */,
+				669A7A131D9561ED0059EA99 /* ClockIn.xcdatamodel */,
 			);
-			currentVersion = 663A47EC1D7E087B00393718 /* ClockIn.xcdatamodel */;
-			path = ClockIn.xcdatamodeld;
+			currentVersion = 669A7A131D9561ED0059EA99 /* ClockIn.xcdatamodel */;
+			name = ClockIn.xcdatamodeld;
+			path = Models/ClockIn.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

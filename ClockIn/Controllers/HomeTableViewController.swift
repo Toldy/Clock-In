@@ -13,6 +13,7 @@ class HomeTableViewController: UIViewController {
 
     // MARK: Outlets
 
+    @IBOutlet weak var titleButton: UIButton!
     @IBOutlet weak var tableView: UITableView!
 
     @IBOutlet weak var headerView: UIView!
@@ -29,12 +30,27 @@ class HomeTableViewController: UIViewController {
             workSlot.end = Date()
             coreDataUpdate(workSlot)
         } else {
-            coreDataCreate(Date())
+            coreDataCreate(begin: Date(), job: currentJob)
         }
     }
 
     private let managedObjectContext = (UIApplication.shared.delegate as! AppDelegate).managedObjectContext
-    fileprivate var workSlotItems = WorkSlotItems()
+    fileprivate var workSlotItems: WorkSlotItems!
+    fileprivate var jobs = [String]()
+
+    var currentJob: String = UserDefaults().string(forKey: "currentJob") ?? "default" {
+        didSet {
+            if currentJob == oldValue {
+                return
+            }
+            
+            self.titleButton.setTitle("Clock In (\(self.currentJob))", for: .normal)
+            self.titleButton.updateConstraints()
+            self.coreDataRead()
+            UserDefaults().set(currentJob, forKey: "currentJob")
+            UserDefaults().synchronize()
+        }
+    }
 
     // MARK: - Lifecycle
 
@@ -52,6 +68,10 @@ class HomeTableViewController: UIViewController {
 
         setupUI()
 
+        titleButton.translatesAutoresizingMaskIntoConstraints = true
+        titleButton.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+
+        titleButton.setTitle("Clock In (\(currentJob))", for: .normal)
         coreDataRead()
     }
 
@@ -91,6 +111,37 @@ class HomeTableViewController: UIViewController {
         tableView.setEditing(editing, animated: animated)
     }
 
+    @IBAction func switchJob(_ sender: Any) {
+        let vc = UIAlertController(title: "Current job",
+                                   message: "Change the job to display",
+                                   preferredStyle: .actionSheet)
+        
+        jobs.forEach {
+            vc.addAction(UIAlertAction(title: $0, style: .default, handler: { (action) in
+                self.currentJob = action.title!
+            }))
+        }
+        vc.addAction(UIAlertAction(title: "Cancel", style: .destructive))
+        
+        present(vc, animated: true, completion: nil)
+    }
+
+    @IBAction func addJob(_ sender: Any) {
+        let vc = UIAlertController(title: "NEW", message: nil, preferredStyle: .alert)
+        
+        vc.addTextField { (textfield) in
+            textfield.placeholder = "Job's name"
+        }
+        vc.addAction(UIAlertAction(title: "Cancel", style: .destructive))
+        vc.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+            guard let newJob = vc.textFields?.first?.text else { return }
+            
+            self.currentJob = newJob
+        }))
+        
+        present(vc, animated: true, completion: nil)
+    }
+
     // MARK: - UI Update
 
     fileprivate func updateUI() {
@@ -120,25 +171,37 @@ class HomeTableViewController: UIViewController {
     }
 
     // MARK: - Core Data
-
+    
     fileprivate func coreDataRead() {
         let fetchRequest = NSFetchRequest<WorkSlot>(entityName: "WorkSlot")
+        
         do {
-            var results = try self.managedObjectContext.fetch(fetchRequest).sorted(by: { $0.begin > $1.begin })
-            workSlotItems = WorkSlotItems()
+            let fetchResult = try self.managedObjectContext.fetch(fetchRequest)
+            
+            // Fetch all jobs
+            jobs = Array(Set(fetchResult.flatMap { $0.job }))
+            
+            // Map workslots
+            var results = fetchResult
+                .filter { $0.job == currentJob }
+                .sorted(by: { $0.begin > $1.begin })
+            
+            workSlotItems = WorkSlotItems(job: currentJob)
             while let first = results.first {
                 let items = results.filter { $0.begin.compareWithoutTime(first.begin) }
                 workSlotItems.addSection(first.begin, items: items)
                 results.removeObjectsInArray(items)
             }
             updateUI()
+            
+            
+            
             tableView.reloadData()
         } catch { print("LEL. Did you really got an error ?!") }
     }
 
     fileprivate func coreDataUpdate(_ workSlot: WorkSlot) {
         do {
-
             try workSlot.managedObjectContext?.save()
             coreDataRead()
         } catch { print("LEL. Did you really got an error ?!") }
@@ -153,10 +216,11 @@ class HomeTableViewController: UIViewController {
         } catch { print("LEL. Did you really got an error ?!") }
     }
 
-    fileprivate func coreDataCreate(_ begin: Date, end: Date? = nil) {
+    fileprivate func coreDataCreate(begin: Date, end: Date? = nil, job: String) {
         let newSlot = NSEntityDescription.insertNewObject(forEntityName: "WorkSlot", into: self.managedObjectContext) as! WorkSlot
         newSlot.begin = begin
         newSlot.end = end
+        newSlot.job = job
 
         coreDataRead()
     }

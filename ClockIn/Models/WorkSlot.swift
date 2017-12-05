@@ -13,11 +13,17 @@ class WorkSlot: NSManagedObject {}
 
 class WorkSlotItems {
 
+    var currentJob: String
+    
     var sections: [Date] = []
     var items: [[WorkSlot]] = []
 
     var totalWorked = 0
 
+    init(job: String) {
+        self.currentJob = job
+    }
+    
     func addSection(_ section: Date, items: [WorkSlot]) {
         sections = sections + [section]
         self.items = self.items + [items]
