@@ -179,6 +179,8 @@ class HomeTableViewController: UIViewController {
         vc.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
             guard let newJob = vc.textFields?.first?.text else { return }
             
+            self.stringToCoreData(content: "{\"fetchResult\":[{\"job\":\"default\",\"begin\":1473750030,\"end\":1473763411},{\"job\":\"default\",\"begin\":1473790516,\"end\":1473791777.1715069},{\"job\":\"default\",\"begin\":1475687873.437937,\"end\":1475687874.120949},{\"job\":\"infomil\",\"begin\":1512461197,\"end\":1512471944},{\"job\":\"default\",\"begin\":1474458615,\"end\":1474470557},{\"job\":\"default\",\"begin\":1473679389.464047,\"end\":1473696033},{\"job\":\"default\",\"begin\":1473663607,\"end\":1473676512},{\"job\":\"default\",\"begin\":1473247815,\"end\":1473264015},{\"job\":\"default\",\"begin\":1474268441,\"end\":1474281041},{\"job\":\"infomil\",\"begin\":1512478959,\"end\":1512497952},{\"job\":\"default\",\"begin\":1476102811,\"end\":1476107794},{\"job\":\"default\",\"begin\":1473159645,\"end\":1473181253.8230519},{\"job\":\"default\",\"begin\":1473112806,\"end\":1473120007},{\"job\":\"default\",\"begin\":1473795526,\"end\":1473800327},{\"job\":\"default\",\"begin\":1473836403,\"end\":1473839104},{\"job\":\"default\",\"begin\":1474524038,\"end\":1474529386},{\"job\":\"default\",\"begin\":1474442277,\"end\":1474455297.8789749},{\"job\":\"default\",\"begin\":1473075600,\"end\":1473094800},{\"job\":\"default\",\"begin\":1474291834,\"end\":1474302634},{\"job\":\"default\",\"begin\":1473766507,\"end\":1473784989},{\"job\":\"default\",\"begin\":1476083547.701364,\"end\":1476100617},{\"job\":\"default\",\"begin\":1473145494,\"end\":1473155636.101613},{\"job\":\"default\",\"begin\":1473848785,\"end\":1473876329},{\"job\":\"default\",\"begin\":1474354835,\"end\":1474367436},{\"job\":\"default\",\"begin\":1474873803,\"end\":1474888265},{\"job\":\"default\",\"begin\":1473058800,\"end\":1473072000},{\"job\":\"default\",\"begin\":1475651835,\"end\":1475665877},{\"job\":\"default\",\"begin\":1474372495,\"end\":1474394095},{\"job\":\"default\",\"begin\":1473231646,\"end\":1473245867.085242},{\"job\":\"default\",\"begin\":1474284643,\"end\":1474290044},{\"job\":\"infomil\",\"begin\":1512721013,\"end\":1512731989.8475649},{\"job\":\"infomil\",\"begin\":1512548399,\"end\":1512559800},{\"job\":\"infomil\",\"begin\":1512562857,\"end\":1512578337},{\"job\":\"infomil\",\"begin\":1512634410,\"end\":1512644731},{\"job\":\"infomil\",\"begin\":1512652073,\"end\":1512669353},{\"job\":\"infomil\",\"begin\":1512736950,\"end\":1512759092},{\"job\":\"infomil\",\"begin\":1512980456,\"end\":1512990057},{\"job\":\"infomil\",\"begin\":1512992702,\"end\":1513010703},{\"job\":\"infomil\",\"begin\":1513066180,\"end\":1513077162},{\"job\":\"infomil\",\"begin\":1513080590.4707189,\"end\":1513101045.624413},{\"job\":\"Self\",\"begin\":1513107421,\"end\":1513114621}]}")
+            
             self.currentJob = newJob
         }))
         
@@ -215,11 +217,44 @@ class HomeTableViewController: UIViewController {
 
     // MARK: - Core Data
     
+    func coreDataToString(_ data: [WorkSlot]) -> String {
+        let dict = ["fetchResult" : data.map({ $0.dict })]
+        let data =  try! JSONSerialization.data(withJSONObject: dict, options: [])
+        return String(data:data, encoding:.utf8)!
+    }
+    
+    func stringToCoreData(content: String) -> [WorkSlot] {
+        if let data = content.data(using: .utf8) {
+            do {
+                guard let result = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] else { return [] }
+                
+                (result["fetchResult"] as? [Any])?.map {
+                    let item = $0 as? [String: Any]
+                    
+                    print(item!["begin"], item!["end"], item!["job"])
+                    let b = Date(timeIntervalSince1970: item!["begin"]! as! TimeInterval)
+                    var e: Date?
+                    if let interval = item!["end"] as? TimeInterval {
+                        e = Date(timeIntervalSince1970: interval)
+                    }
+                    coreDataCreate(begin: b,
+                                   end: e,
+                                   job: item!["job"]! as! String)
+                }
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
+        return []
+    }
+    
     fileprivate func coreDataRead() {
         let fetchRequest = NSFetchRequest<WorkSlot>(entityName: "WorkSlot")
         
         do {
             let fetchResult = try self.managedObjectContext.fetch(fetchRequest)
+            
+            print(coreDataToString(fetchResult))
             
             // Fetch all jobs
             jobs = Array(Set(fetchResult.flatMap { $0.job }))

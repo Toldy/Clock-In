@@ -17,4 +17,8 @@ extension WorkSlot {
     @NSManaged var begin: Date!
     @NSManaged var end: Date?
     @NSManaged var job: String!
+    
+    var dict: [String: Any] {
+        return ["begin": begin.timeIntervalSince1970, "end": end?.timeIntervalSince1970, "job": job]
+    }
 }
