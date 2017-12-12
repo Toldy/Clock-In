@@ -231,8 +231,8 @@
                     </view>
                     <navigationItem key="navigationItem" id="2je-nG-ZXV">
                         <nil key="title"/>
-                        <button key="titleView" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="tailTruncation" id="zJe-Of-eWh">
-                            <rect key="frame" x="129" y="7" width="117" height="30"/>
+                        <button key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="tailTruncation" id="zJe-Of-eWh">
+                            <rect key="frame" x="113.5" y="7" width="148" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <state key="normal" title="Clock In (default 42)  "/>
                             <connections>

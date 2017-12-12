@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import AMGCalendarManager
 
 class HomeTableViewController: UIViewController {
 
@@ -37,7 +38,8 @@ class HomeTableViewController: UIViewController {
     private let managedObjectContext = (UIApplication.shared.delegate as! AppDelegate).managedObjectContext
     fileprivate var workSlotItems: WorkSlotItems!
     fileprivate var jobs = [String]()
-
+    fileprivate var timer: Timer!
+    
     var currentJob: String = UserDefaults().string(forKey: "currentJob") ?? "default" {
         didSet {
             if currentJob == oldValue {
@@ -73,8 +75,49 @@ class HomeTableViewController: UIViewController {
 
         titleButton.setTitle("Clock In (\(currentJob))", for: .normal)
         coreDataRead()
+        
+        print("GO")
+        timer = Timer.scheduledTimer(timeInterval: 45.0, target: self, selector: #selector(timerRunning), userInfo: nil, repeats: true)
+        
+        toldino()
     }
-
+    
+    func toldino() {
+        
+        AMGCalendarManager.shared.calendarName = "Clock In (\(currentJob))"
+        
+        for day in workSlotItems.items {
+            for event in day {
+                AMGCalendarManager.shared.createEvent(completion: { (e) in
+                    guard let e = e else { return }
+                    
+                    e.startDate = event.begin
+                    e.endDate = event.end ?? event.begin // 1 hour
+                    
+                    let formatter = DateFormatter()
+                    formatter.dateStyle = .short
+                    
+                    e.title = formatter.string(from: event.begin).uppercased()
+                    e.notes = "Notes \(event)"
+                    e.timeZone = TimeZone.current
+                    
+                    
+                    AMGCalendarManager.shared.saveEvent(event: e)
+                    
+                })
+            }
+        }
+//        AMGCalendarManager.shared.getAllEvents(completion: { (error, events) in
+//            print(error)
+//            print(events)
+//        })
+    }
+    
+    func timerRunning() {
+        print("reload \(Date())")
+        coreDataRead()
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
