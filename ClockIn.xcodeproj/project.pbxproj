@@ -22,13 +22,12 @@
 		664DA50D1D814BB1001D8D81 /* Array+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664DA50C1D814BB1001D8D81 /* Array+Extension.swift */; };
 		664DA5111D814C8B001D8D81 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664DA5101D814C8B001D8D81 /* Date+Extension.swift */; };
 		664DA5141D81657E001D8D81 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664DA5131D81657E001D8D81 /* UIColor+Extension.swift */; };
+		665AD3231FE07274005DFB6C /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 665AD3221FE07274005DFB6C /* SettingsTableViewController.swift */; };
 		665C3E1A1D8481F40052CC32 /* Popup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 665C3E191D8481F40052CC32 /* Popup.swift */; };
 		665C3E1C1D8490930052CC32 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 665C3E1B1D8490930052CC32 /* Colors.swift */; };
-		669A7A141D9561ED0059EA99 /* ClockIn.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 669A7A121D9561ED0059EA99 /* ClockIn.xcdatamodeld */; };
 		66FFBBB11D82C26400E351A6 /* DoubleStateButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FFBBB01D82C26400E351A6 /* DoubleStateButton.swift */; };
 		66FFBBB51D82CB1B00E351A6 /* MultipleStatesButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FFBBB41D82CB1B00E351A6 /* MultipleStatesButton.swift */; };
 		66FFBBB71D82DCFD00E351A6 /* HoursWorkedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FFBBB61D82DCFD00E351A6 /* HoursWorkedButton.swift */; };
-		7C38F6D24EC4EB277F169C75 /* Pods_ClockInUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 786AB4B8EA045E8EB00B92E9 /* Pods_ClockInUITests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,9 +41,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0A3471F601E03CCE54E78A7C /* Pods-ClockInUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClockInUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-ClockInUITests/Pods-ClockInUITests.release.xcconfig"; sourceTree = "<group>"; };
 		38F0990D86767B35E491AD38 /* Pods-ClockIn.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClockIn.release.xcconfig"; path = "Pods/Target Support Files/Pods-ClockIn/Pods-ClockIn.release.xcconfig"; sourceTree = "<group>"; };
-		510300FBE1E5D2B6C22A02DB /* Pods-ClockInUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClockInUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ClockInUITests/Pods-ClockInUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		5640B8F07A96192CA81A482D /* Pods_ClockIn.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ClockIn.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		663A47E11D7E087B00393718 /* ClockIn.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClockIn.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		663A47E41D7E087B00393718 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -64,9 +61,9 @@
 		664DA50C1D814BB1001D8D81 /* Array+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Array+Extension.swift"; path = "Helpers/Array+Extension.swift"; sourceTree = "<group>"; };
 		664DA5101D814C8B001D8D81 /* Date+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Date+Extension.swift"; path = "Helpers/Date+Extension.swift"; sourceTree = "<group>"; };
 		664DA5131D81657E001D8D81 /* UIColor+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIColor+Extension.swift"; path = "Helpers/UIColor+Extension.swift"; sourceTree = "<group>"; };
+		665AD3221FE07274005DFB6C /* SettingsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SettingsTableViewController.swift; path = Controllers/SettingsTableViewController.swift; sourceTree = "<group>"; };
 		665C3E191D8481F40052CC32 /* Popup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Popup.swift; path = Helpers/Popup.swift; sourceTree = "<group>"; };
 		665C3E1B1D8490930052CC32 /* Colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Colors.swift; path = Helpers/Colors.swift; sourceTree = "<group>"; };
-		669A7A131D9561ED0059EA99 /* ClockIn.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ClockIn.xcdatamodel; sourceTree = "<group>"; };
 		66FFBBB01D82C26400E351A6 /* DoubleStateButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DoubleStateButton.swift; path = "Views/Custom Views/DoubleStateButton.swift"; sourceTree = "<group>"; };
 		66FFBBB41D82CB1B00E351A6 /* MultipleStatesButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MultipleStatesButton.swift; path = "Views/Custom Views/MultipleStatesButton.swift"; sourceTree = "<group>"; };
 		66FFBBB61D82DCFD00E351A6 /* HoursWorkedButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HoursWorkedButton.swift; path = "Views/Custom Views/HoursWorkedButton.swift"; sourceTree = "<group>"; };
@@ -87,7 +84,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7C38F6D24EC4EB277F169C75 /* Pods_ClockInUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -141,7 +137,6 @@
 		663A48151D7E257300393718 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				669A7A121D9561ED0059EA99 /* ClockIn.xcdatamodeld */,
 				663A48161D7E25E800393718 /* WorkSlot+CoreDataProperties.swift */,
 				663A48171D7E25E800393718 /* WorkSlot.swift */,
 			);
@@ -181,6 +176,7 @@
 			children = (
 				664DA5001D7F7175001D8D81 /* EditTableViewController.swift */,
 				663A480F1D7E14E700393718 /* HomeTableViewController.swift */,
+				665AD3221FE07274005DFB6C /* SettingsTableViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -236,8 +232,6 @@
 			children = (
 				994138C1BF6B8C27D1B23000 /* Pods-ClockIn.debug.xcconfig */,
 				38F0990D86767B35E491AD38 /* Pods-ClockIn.release.xcconfig */,
-				510300FBE1E5D2B6C22A02DB /* Pods-ClockInUITests.debug.xcconfig */,
-				0A3471F601E03CCE54E78A7C /* Pods-ClockInUITests.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -269,12 +263,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 663A48041D7E087B00393718 /* Build configuration list for PBXNativeTarget "ClockInUITests" */;
 			buildPhases = (
-				860501DBE1CDD6A2C4FBCDE5 /* [CP] Check Pods Manifest.lock */,
 				663A47F41D7E087B00393718 /* Sources */,
 				663A47F51D7E087B00393718 /* Frameworks */,
 				663A47F61D7E087B00393718 /* Resources */,
-				038FC1B22A965889293F12B2 /* [CP] Embed Pods Frameworks */,
-				427B8C321EBC8B9FF8247D2E /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -299,13 +290,13 @@
 					663A47E01D7E087B00393718 = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = 44BGB7W8XJ;
-						LastSwiftMigration = 0800;
+						LastSwiftMigration = 0920;
 						ProvisioningStyle = Manual;
 					};
 					663A47F71D7E087B00393718 = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = 44BGB7W8XJ;
-						LastSwiftMigration = 0800;
+						LastSwiftMigration = 0920;
 						ProvisioningStyle = Manual;
 						TestTargetID = 663A47E01D7E087B00393718;
 					};
@@ -351,21 +342,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		038FC1B22A965889293F12B2 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ClockInUITests/Pods-ClockInUITests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		0D20DA1BF2506605C225BFD2 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -384,39 +360,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		427B8C321EBC8B9FF8247D2E /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ClockInUITests/Pods-ClockInUITests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		860501DBE1CDD6A2C4FBCDE5 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-ClockInUITests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
 		C2F885F8A48092D6BADD608E /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -425,10 +368,14 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-ClockIn/Pods-ClockIn-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/AMGCalendarManager/AMGCalendarManager.framework",
+				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
+				"${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AMGCalendarManager.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmSwift.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -469,10 +416,10 @@
 				665C3E1C1D8490930052CC32 /* Colors.swift in Sources */,
 				664DA50B1D814B93001D8D81 /* UIView+Extension.swift in Sources */,
 				663A48191D7E25E800393718 /* WorkSlot.swift in Sources */,
+				665AD3231FE07274005DFB6C /* SettingsTableViewController.swift in Sources */,
 				665C3E1A1D8481F40052CC32 /* Popup.swift in Sources */,
 				664DA5011D7F7175001D8D81 /* EditTableViewController.swift in Sources */,
 				663A47E51D7E087B00393718 /* AppDelegate.swift in Sources */,
-				669A7A141D9561ED0059EA99 /* ClockIn.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -619,7 +566,8 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "78239011-421e-4158-ba6c-70c93d7986bd";
 				PROVISIONING_PROFILE_SPECIFIER = Wildcard;
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -638,13 +586,13 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};
 		663A48051D7E087B00393718 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 510300FBE1E5D2B6C22A02DB /* Pods-ClockInUITests.debug.xcconfig */;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
@@ -655,14 +603,14 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "78239011-421e-4158-ba6c-70c93d7986bd";
 				PROVISIONING_PROFILE_SPECIFIER = Wildcard;
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 				TEST_TARGET_NAME = ClockIn;
 			};
 			name = Debug;
 		};
 		663A48061D7E087B00393718 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0A3471F601E03CCE54E78A7C /* Pods-ClockInUITests.release.xcconfig */;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
@@ -672,7 +620,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = toldino.ClockInUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 				TEST_TARGET_NAME = ClockIn;
 			};
 			name = Release;
@@ -708,20 +657,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCVersionGroup section */
-		669A7A121D9561ED0059EA99 /* ClockIn.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				669A7A131D9561ED0059EA99 /* ClockIn.xcdatamodel */,
-			);
-			currentVersion = 669A7A131D9561ED0059EA99 /* ClockIn.xcdatamodel */;
-			name = ClockIn.xcdatamodeld;
-			path = Models/ClockIn.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = 663A47D91D7E087B00393718 /* Project object */;
 }

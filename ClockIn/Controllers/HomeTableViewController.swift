@@ -7,11 +7,261 @@
 //
 
 import UIKit
-import CoreData
 import AMGCalendarManager
+import RealmSwift
+
+extension Array {
+    func grouped<T>(by criteria: (Element) -> T) -> [T: [Element]] {
+        var groups = [T: [Element]]()
+        for element in self {
+            let key = criteria(element)
+            if groups.keys.contains(key) == false {
+                groups[key] = [Element]()
+            }
+            groups[key]?.append(element)
+        }
+        return groups
+    }
+}
+
+extension Sequence where Iterator.Element: Hashable {
+    func unique() -> [Iterator.Element] {
+        var seen: [Iterator.Element: Bool] = [:]
+        return self.filter { seen.updateValue(true, forKey: $0) == nil }
+    }
+}
+
+extension Date {
+    func toLongFormatString() -> String {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .long
+        return formatter.string(from: self).uppercased()
+    }
+    
+}
+
+final class Event: Object {
+    @objc dynamic var id: Int = 0 // AutoIncrement existing ?
+    @objc dynamic var job: Job?
+    
+    @objc dynamic var start = Date()
+    @objc dynamic var end: Date? = nil
+    
+    var durationInMinutes: Int {
+        return (end ?? Date()).minutesFrom(start)
+    }
+    
+    override static func primaryKey() -> String? {
+        return "id"
+    }
+}
+
+final class Job: Object {
+    @objc dynamic var id: Int = 0
+    @objc dynamic var name: String = "default"
+    
+    var events: Results<Event>? {
+        return realm?.objects(Event.self)
+            .filter(NSPredicate(format: "job == %@", self))
+            .sorted(byKeyPath: "start", ascending: false)
+    }
+    
+    override static func primaryKey() -> String? {
+        return "id"
+    }
+}
+
+
+class BaseViewModel {
+    
+    var currentJob: Job!
+    private var jobs: Results<Job>!
+    private var events: Results<Event>!
+
+    private let realm: Realm!
+    
+    var jobsNotEmpty: [Job] {
+        return jobs.filter { $0.events?.isEmpty == false }
+    }
+    
+    init() {
+        realm = try! Realm()
+        
+        realmReadAll()
+        
+        if jobs.count == 0 {
+            _ = getJob(name: "default", createIfNotExist: true)
+            realmReadAll()
+        }
+        currentJob = getJob(name: UserDefaults().string(forKey: "currentJob") ?? "default")
+    }
+    
+    func realmReadAll() {
+        jobs = realm.objects(Job.self)
+        events = realm.objects(Event.self)
+        
+    }
+    
+    func changeJob(name: String) {
+        self.currentJob = getJob(name: name, createIfNotExist: true)
+        realmReadAll()
+    }
+    
+    func clockIn() {
+        if let event = currentJob.events!.first, event.end == nil {
+            finishEvent(event)
+        } else {
+            newEvent()
+        }
+    }
+    
+    func getJob(name: String, createIfNotExist: Bool = false) -> Job? {
+        let matchingJob = jobs.filter({ $0.name == name }).first
+        
+        if let matchingJob = matchingJob {
+            return matchingJob
+        }
+        return createIfNotExist ? createJob(name: name) : nil
+    }
+    
+    func createJob(name: String = "default") -> Job {
+        let job = Job(value: ["id": jobs.count, "name": name])
+        try! realm.write() {
+            realm.add(job)
+        }
+        return job
+    }
+    
+    func finishEvent(_ event: Event) {
+        try! realm.write() {
+            event.end = Date()
+        }
+        realmReadAll()
+    }
+    
+    func newEvent() {
+        var newId = 0
+        
+        if let lastId = events.sorted(byKeyPath: "id", ascending: false).first?.id {
+            newId = lastId + 1
+        }
+
+        let event = Event(value: ["id": newId, "job": currentJob, "start": Date()])
+        try! realm.write() {
+            realm.add(event)
+        }
+        realmReadAll()
+    }
+    
+    func update(event: Event, start: Date, end: Date) {
+        try! realm.write {
+            event.start = start
+            event.end = end
+        }
+        realmReadAll()
+    }
+    
+    func delete(event: Event) {
+        try! realm.write {
+            realm.delete(event)
+        }
+        realmReadAll()
+    }
+    
+    
+}
+
+class HistoryViewModel {
+
+    private var parentViewModel: BaseViewModel
+    private var eventsGroupedByDay: [String: [Event]]!
+    private var sectionsIndexes: [String]!
+    
+    init(baseViewModel: BaseViewModel) {
+        self.parentViewModel = baseViewModel
+        
+        refreshWithParent()
+    }
+    
+    func refreshWithParent() {
+        guard let resultEvents = parentViewModel.currentJob?.events else { return }
+        
+        let tmpArray = Array(resultEvents)
+        
+        sectionsIndexes = tmpArray.map({ $0.start.toLongFormatString() }).unique()
+        eventsGroupedByDay = tmpArray.grouped { event in
+            return event.start.toLongFormatString()
+        }
+        
+        print(sectionsIndexes)
+        print(eventsGroupedByDay)
+    }
+    
+    func clockIn(completion: () -> Void) {
+        parentViewModel.clockIn()
+        refreshWithParent()
+        completion()
+    }
+    
+    func deleteEvent(at indexPath: IndexPath, completion: () -> Void) {
+        let event = self.event(at: indexPath)
+        parentViewModel.delete(event: event)
+        refreshWithParent()
+        completion()
+    }
+    
+    func numberOfRows(inSection section: Int) -> Int {
+        return eventsGroupedByDay[sectionsIndexes[section]]!.count
+    }
+    
+    func numberOfSections() -> Int {
+        return sectionsIndexes.count
+    }
+    
+    func event(at indexPath: IndexPath) -> Event {
+        return eventsGroupedByDay[sectionsIndexes[indexPath.section]]![indexPath.row]
+    }
+    
+    func changeJob(name: String) {
+        parentViewModel.changeJob(name: name)
+        refreshWithParent()
+    }
+    
+    var daysWorked: Int {
+        return numberOfSections()
+    }
+    
+    func titleForSection(_ section: Int) -> String {
+        return sectionsIndexes[section]
+    }
+    
+    func totalTime(inSection section: Int) -> String {
+        let totalMinutes = self.totalMinutes(inSection: section)
+        
+        return "\(totalMinutes / 60) hrs \(totalMinutes % 60) min"
+    }
+
+    var totalWorked: Int {
+        return sectionsIndexes.enumerated().reduce(0) { (result, e) in
+            return result + totalMinutes(inSection: e.offset)
+        }
+    }
+    
+    var currentJob: String {
+        return parentViewModel.currentJob.name
+    }
+    
+    private func totalMinutes(inSection section: Int) -> Int {
+        guard let events = eventsGroupedByDay[sectionsIndexes[section]] else { return 0 }
+        return Array(events).reduce(0) { $0 + $1.durationInMinutes }
+    }
+}
 
 class HomeTableViewController: UIViewController {
 
+    var viewModel = BaseViewModel()
+    var historyViewModel: HistoryViewModel!
+    
     // MARK: Outlets
 
     @IBOutlet weak var titleButton: UIButton!
@@ -27,30 +277,26 @@ class HomeTableViewController: UIViewController {
     @IBOutlet weak var sectionHeaderTimeLabel: UILabel!
 
     @IBAction func actionCheck(_ sender: AnyObject) {
-        if let workSlot = workSlotItems.items[safe: 0]?.first, workSlot.end == nil {
-            workSlot.end = Date()
-            coreDataUpdate(workSlot)
-        } else {
-            coreDataCreate(begin: Date(), job: currentJob)
+        historyViewModel.clockIn {
+            self.updateUI()
         }
     }
 
-    private let managedObjectContext = (UIApplication.shared.delegate as! AppDelegate).managedObjectContext
-    fileprivate var workSlotItems: WorkSlotItems!
     fileprivate var jobs = [String]()
     fileprivate var timer: Timer!
     
-    var currentJob: String = UserDefaults().string(forKey: "currentJob") ?? "default" {
+    var currentJob: String! {
         didSet {
             if currentJob == oldValue {
                 return
             }
             
-            self.titleButton.setTitle("Clock In (\(self.currentJob))", for: .normal)
-            self.titleButton.updateConstraints()
-            self.coreDataRead()
+            historyViewModel.changeJob(name: currentJob)
+            titleButton.setTitle("Clock In (\(historyViewModel.currentJob))", for: .normal)
+            titleButton.updateConstraints()
             UserDefaults().set(currentJob, forKey: "currentJob")
             UserDefaults().synchronize()
+            updateUI()
         }
     }
 
@@ -64,7 +310,9 @@ class HomeTableViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        historyViewModel = HistoryViewModel(baseViewModel: viewModel)
+        
         tableView.dataSource = self
         tableView.delegate = self
 
@@ -73,49 +321,54 @@ class HomeTableViewController: UIViewController {
         titleButton.translatesAutoresizingMaskIntoConstraints = true
         titleButton.autoresizingMask = [.flexibleWidth, .flexibleHeight]
 
-        titleButton.setTitle("Clock In (\(currentJob))", for: .normal)
-        coreDataRead()
+        titleButton.setTitle("Clock In (\(historyViewModel.currentJob))", for: .normal)
+        
+        updateUI()
         
         print("GO")
         timer = Timer.scheduledTimer(timeInterval: 45.0, target: self, selector: #selector(timerRunning), userInfo: nil, repeats: true)
         
-        toldino()
+        createCalendarEvents()
     }
     
-    func toldino() {
+    func createCalendarEvents() {
         
-        AMGCalendarManager.shared.calendarName = "Clock In (\(currentJob))"
+        AMGCalendarManager.shared.calendarName = "Clock In (\(historyViewModel.currentJob))"
         
-        for day in workSlotItems.items {
-            for event in day {
+        for idxSection in 0..<historyViewModel.numberOfSections() {
+            for idxRow in 0..<historyViewModel.numberOfRows(inSection: idxSection) {
+                let indexPath = IndexPath(row: idxRow, section: idxSection)
+                let event = historyViewModel.event(at: indexPath)
+                
                 AMGCalendarManager.shared.createEvent(completion: { (e) in
                     guard let e = e else { return }
                     
-                    e.startDate = event.begin
-                    e.endDate = event.end ?? event.begin // 1 hour
+                    e.startDate = event.start
+                    e.endDate = event.end ?? event.start.addingTimeInterval(1) // 1 hour
                     
                     let formatter = DateFormatter()
                     formatter.dateStyle = .short
                     
-                    e.title = formatter.string(from: event.begin).uppercased()
+                    e.title = formatter.string(from: event.start).uppercased()
                     e.notes = "Notes \(event)"
                     e.timeZone = TimeZone.current
                     
                     
-                    AMGCalendarManager.shared.saveEvent(event: e)
-                    
+                    AMGCalendarManager.shared.saveEvent(event: e, span: .thisEvent, completion: { (error) in
+                        print(error)
+                    })
                 })
             }
         }
-//        AMGCalendarManager.shared.getAllEvents(completion: { (error, events) in
-//            print(error)
-//            print(events)
-//        })
+        AMGCalendarManager.shared.getAllEvents(completion: { (error, events) in
+            print(error)
+            print(events)
+        })
     }
     
-    func timerRunning() {
+    @objc func timerRunning() {
         print("reload \(Date())")
-        coreDataRead()
+        updateUI()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -127,7 +380,7 @@ class HomeTableViewController: UIViewController {
     }
 
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
-        return (sender as? CustomTableViewCell)?.workSlot.end != nil
+        return (sender as? CustomTableViewCell)?.event.end != nil
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any!) {
@@ -135,16 +388,14 @@ class HomeTableViewController: UIViewController {
             let cell = sender as? CustomTableViewCell {
 
             vc.initializationHandler = { (beginDatePicker, endDatePicker) in
-                beginDatePicker.date = cell.workSlot.begin as Date
-                endDatePicker.date = cell.workSlot.end! as Date
+                beginDatePicker.date = cell.event.start
+                endDatePicker.date = cell.event.end!
             }
 
             vc.completionHandler = { (beginDate, endDate) in
-                let workSlot = cell.workSlot
-                workSlot?.begin = beginDate
-                workSlot?.end = endDate
-
-                self.coreDataUpdate(workSlot!)
+                self.viewModel.update(event: cell.event, start: beginDate, end: endDate)
+                // TODO change with historyViewModel + refreshFromParent()
+                self.updateUI()
             }
         }
     }
@@ -159,8 +410,8 @@ class HomeTableViewController: UIViewController {
                                    message: "Change the job to display",
                                    preferredStyle: .actionSheet)
         
-        jobs.forEach {
-            vc.addAction(UIAlertAction(title: $0, style: .default, handler: { (action) in
+        viewModel.jobsNotEmpty.forEach {
+            vc.addAction(UIAlertAction(title: $0.name, style: .default, handler: { (action) in
                 self.currentJob = action.title!
             }))
         }
@@ -179,7 +430,7 @@ class HomeTableViewController: UIViewController {
         vc.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
             guard let newJob = vc.textFields?.first?.text else { return }
             
-            self.stringToCoreData(content: "{\"fetchResult\":[{\"job\":\"default\",\"begin\":1473750030,\"end\":1473763411},{\"job\":\"default\",\"begin\":1473790516,\"end\":1473791777.1715069},{\"job\":\"default\",\"begin\":1475687873.437937,\"end\":1475687874.120949},{\"job\":\"infomil\",\"begin\":1512461197,\"end\":1512471944},{\"job\":\"default\",\"begin\":1474458615,\"end\":1474470557},{\"job\":\"default\",\"begin\":1473679389.464047,\"end\":1473696033},{\"job\":\"default\",\"begin\":1473663607,\"end\":1473676512},{\"job\":\"default\",\"begin\":1473247815,\"end\":1473264015},{\"job\":\"default\",\"begin\":1474268441,\"end\":1474281041},{\"job\":\"infomil\",\"begin\":1512478959,\"end\":1512497952},{\"job\":\"default\",\"begin\":1476102811,\"end\":1476107794},{\"job\":\"default\",\"begin\":1473159645,\"end\":1473181253.8230519},{\"job\":\"default\",\"begin\":1473112806,\"end\":1473120007},{\"job\":\"default\",\"begin\":1473795526,\"end\":1473800327},{\"job\":\"default\",\"begin\":1473836403,\"end\":1473839104},{\"job\":\"default\",\"begin\":1474524038,\"end\":1474529386},{\"job\":\"default\",\"begin\":1474442277,\"end\":1474455297.8789749},{\"job\":\"default\",\"begin\":1473075600,\"end\":1473094800},{\"job\":\"default\",\"begin\":1474291834,\"end\":1474302634},{\"job\":\"default\",\"begin\":1473766507,\"end\":1473784989},{\"job\":\"default\",\"begin\":1476083547.701364,\"end\":1476100617},{\"job\":\"default\",\"begin\":1473145494,\"end\":1473155636.101613},{\"job\":\"default\",\"begin\":1473848785,\"end\":1473876329},{\"job\":\"default\",\"begin\":1474354835,\"end\":1474367436},{\"job\":\"default\",\"begin\":1474873803,\"end\":1474888265},{\"job\":\"default\",\"begin\":1473058800,\"end\":1473072000},{\"job\":\"default\",\"begin\":1475651835,\"end\":1475665877},{\"job\":\"default\",\"begin\":1474372495,\"end\":1474394095},{\"job\":\"default\",\"begin\":1473231646,\"end\":1473245867.085242},{\"job\":\"default\",\"begin\":1474284643,\"end\":1474290044},{\"job\":\"infomil\",\"begin\":1512721013,\"end\":1512731989.8475649},{\"job\":\"infomil\",\"begin\":1512548399,\"end\":1512559800},{\"job\":\"infomil\",\"begin\":1512562857,\"end\":1512578337},{\"job\":\"infomil\",\"begin\":1512634410,\"end\":1512644731},{\"job\":\"infomil\",\"begin\":1512652073,\"end\":1512669353},{\"job\":\"infomil\",\"begin\":1512736950,\"end\":1512759092},{\"job\":\"infomil\",\"begin\":1512980456,\"end\":1512990057},{\"job\":\"infomil\",\"begin\":1512992702,\"end\":1513010703},{\"job\":\"infomil\",\"begin\":1513066180,\"end\":1513077162},{\"job\":\"infomil\",\"begin\":1513080590.4707189,\"end\":1513101045.624413},{\"job\":\"Self\",\"begin\":1513107421,\"end\":1513114621}]}")
+            self.historyViewModel.changeJob(name: newJob)
             
             self.currentJob = newJob
         }))
@@ -191,15 +442,16 @@ class HomeTableViewController: UIViewController {
 
     fileprivate func updateUI() {
         updateHeaderBar()
+        tableView.reloadData()
     }
 
     fileprivate func updateHeaderBar() {
-        headerTotalTimeButton.minutesWorked = workSlotItems.totalWorked
+        headerTotalTimeButton.minutesWorked = historyViewModel.totalWorked
         updateDaysWorkedLabel()
     }
 
     fileprivate func updateDaysWorkedLabel() {
-        let daysWorked = workSlotItems.sections.count
+        let daysWorked = historyViewModel.daysWorked
 
         let style = NSMutableParagraphStyle()
         style.alignment = NSTextAlignment.left
@@ -207,100 +459,12 @@ class HomeTableViewController: UIViewController {
 
         let font = UIFont.boldSystemFont(ofSize: 15)
 
-        let dict = [NSForegroundColorAttributeName: 🖌.materialRedColor, NSFontAttributeName: font, NSParagraphStyleAttributeName: style]
+        let dict = [NSAttributedStringKey.foregroundColor: 🖌.materialRedColor, NSAttributedStringKey.font: font, NSAttributedStringKey.paragraphStyle: style]
 
         let attributedString = NSMutableAttributedString()
         attributedString.append(NSAttributedString(string: "\(daysWorked)", attributes: dict))
 
         headerTotalDaysLabel.attributedText = attributedString
-    }
-
-    // MARK: - Core Data
-    
-    func coreDataToString(_ data: [WorkSlot]) -> String {
-        let dict = ["fetchResult" : data.map({ $0.dict })]
-        let data =  try! JSONSerialization.data(withJSONObject: dict, options: [])
-        return String(data:data, encoding:.utf8)!
-    }
-    
-    func stringToCoreData(content: String) -> [WorkSlot] {
-        if let data = content.data(using: .utf8) {
-            do {
-                guard let result = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] else { return [] }
-                
-                (result["fetchResult"] as? [Any])?.map {
-                    let item = $0 as? [String: Any]
-                    
-                    print(item!["begin"], item!["end"], item!["job"])
-                    let b = Date(timeIntervalSince1970: item!["begin"]! as! TimeInterval)
-                    var e: Date?
-                    if let interval = item!["end"] as? TimeInterval {
-                        e = Date(timeIntervalSince1970: interval)
-                    }
-                    coreDataCreate(begin: b,
-                                   end: e,
-                                   job: item!["job"]! as! String)
-                }
-            } catch {
-                print(error.localizedDescription)
-            }
-        }
-        return []
-    }
-    
-    fileprivate func coreDataRead() {
-        let fetchRequest = NSFetchRequest<WorkSlot>(entityName: "WorkSlot")
-        
-        do {
-            let fetchResult = try self.managedObjectContext.fetch(fetchRequest)
-            
-            print(coreDataToString(fetchResult))
-            
-            // Fetch all jobs
-            jobs = Array(Set(fetchResult.flatMap { $0.job }))
-            
-            // Map workslots
-            var results = fetchResult
-                .filter { $0.job == currentJob }
-                .sorted(by: { $0.begin > $1.begin })
-            
-            workSlotItems = WorkSlotItems(job: currentJob)
-            while let first = results.first {
-                let items = results.filter { $0.begin.compareWithoutTime(first.begin) }
-                workSlotItems.addSection(first.begin, items: items)
-                results.removeObjectsInArray(items)
-            }
-            updateUI()
-            
-            
-            
-            tableView.reloadData()
-        } catch { print("LEL. Did you really got an error ?!") }
-    }
-
-    fileprivate func coreDataUpdate(_ workSlot: WorkSlot) {
-        do {
-            try workSlot.managedObjectContext?.save()
-            coreDataRead()
-        } catch { print("LEL. Did you really got an error ?!") }
-    }
-
-    fileprivate func coreDataDelete(_ workSlot: WorkSlot) {
-        self.managedObjectContext.delete(workSlot)
-        do {
-
-            try self.managedObjectContext.save()
-            coreDataRead()
-        } catch { print("LEL. Did you really got an error ?!") }
-    }
-
-    fileprivate func coreDataCreate(begin: Date, end: Date? = nil, job: String) {
-        let newSlot = NSEntityDescription.insertNewObject(forEntityName: "WorkSlot", into: self.managedObjectContext) as! WorkSlot
-        newSlot.begin = begin
-        newSlot.end = end
-        newSlot.job = job
-
-        coreDataRead()
     }
 }
 
@@ -309,27 +473,29 @@ class HomeTableViewController: UIViewController {
 extension HomeTableViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return workSlotItems.items[section].count
+        return historyViewModel.numberOfRows(inSection: section)
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {
-        return workSlotItems.sections.count
+        return historyViewModel.numberOfSections()
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! CustomTableViewCell
 
-        let data = workSlotItems.items[(indexPath as NSIndexPath).section][(indexPath as NSIndexPath).row]
+        let data = historyViewModel.event(at: indexPath)
 
         cell.setup()
-        cell.workSlot = data
+        cell.event = data
 
         return cell
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            coreDataDelete(workSlotItems.items[(indexPath as NSIndexPath).section][(indexPath as NSIndexPath).row])
+            historyViewModel.deleteEvent(at: indexPath) {
+                self.updateUI()
+            }
         }
     }
 }
@@ -341,15 +507,8 @@ extension HomeTableViewController: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-
-        let dataForTitle = workSlotItems.sections[section]
-
-        let formatter = DateFormatter()
-        formatter.dateStyle = .long
-
-        sectionHeaderDateLabel.text = formatter.string(from: dataForTitle).uppercased()
-        let time = workSlotItems.totalTimeForSection(section)
-        sectionHeaderTimeLabel.text = "\(time / 60) hrs \(time % 60) min"
+        sectionHeaderDateLabel.text = historyViewModel.titleForSection(section)
+        sectionHeaderTimeLabel.text = historyViewModel.totalTime(inSection: section)
 
         let view = sectionHeaderView.copyView() as! UIView
         return view

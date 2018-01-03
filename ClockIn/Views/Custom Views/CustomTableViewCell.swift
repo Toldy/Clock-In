@@ -9,11 +9,11 @@
 import UIKit
 
 class CustomTableViewCell: UITableViewCell {
-
-    var workSlot: WorkSlot! {
+    
+    var event: Event! {
         didSet {
-            beginDate = workSlot.begin
-            endDate = workSlot.end
+            beginDate = event.start
+            endDate = event.end
         }
     }
 

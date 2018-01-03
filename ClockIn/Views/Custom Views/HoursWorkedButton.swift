@@ -42,8 +42,8 @@ extension HoursWorkedButton: MultipleStatesButtonDelegate {
         let font1 = UIFont.systemFont(ofSize: 15)
         let font2 = UIFont.boldSystemFont(ofSize: 15)
 
-        let dict1 = [NSForegroundColorAttributeName: 🖌.lightGreyColor, NSFontAttributeName: font1, NSParagraphStyleAttributeName: style]
-        let dict2 = [NSForegroundColorAttributeName: 🖌.materialRedColor, NSFontAttributeName: font2, NSParagraphStyleAttributeName: style]
+        let dict1 = [NSAttributedStringKey.foregroundColor: 🖌.lightGreyColor, NSAttributedStringKey.font: font1, NSAttributedStringKey.paragraphStyle: style]
+        let dict2 = [NSAttributedStringKey.foregroundColor: 🖌.materialRedColor, NSAttributedStringKey.font: font2, NSAttributedStringKey.paragraphStyle: style]
 
         let attributedString = NSMutableAttributedString()
 

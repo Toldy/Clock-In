@@ -14,7 +14,7 @@ class Popup {
 
     // MARK: - Custom popup here
 
-    static func showDatesReversed(_ viewController: UIViewController, okAction: ((Void) -> Void)?) {
+    static func showDatesReversed(_ viewController: UIViewController, okAction: (() -> Void)?) {
         show(viewController, title: "Ooops 😞", message: "Your begin is set after the end !\nDo you want to swap them ?", okTitle: "YES !", cancelTitle: "Cancel", okHandler: okAction, cancelHandler: nil)
     }
 
@@ -29,7 +29,7 @@ class Popup {
     // MARK: - Only change the code here if change the library
 
     fileprivate static func show(_ viewController: UIViewController, title: String, message: String?, okTitle: String, cancelTitle: String? = nil,
-        okHandler: ((Void) -> Void)? = nil, cancelHandler: ((Void) -> Void)? = nil) {
+        okHandler: (() -> Void)? = nil, cancelHandler: (() -> Void)? = nil) {
 
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
 

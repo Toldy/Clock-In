@@ -7,9 +7,8 @@
 //
 
 import Foundation
-import CoreData
 
-class WorkSlot: NSManagedObject {}
+class WorkSlot {}
 
 class WorkSlotItems {
 
